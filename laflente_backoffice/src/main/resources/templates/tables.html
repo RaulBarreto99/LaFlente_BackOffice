@@ -518,5 +518,15 @@
   <!-- Custom scripts -->
   <script src="assets/js/app-script.js"></script>
 	
+	<script>
+  	let tema = localStorage.getItem("tema");
+  	
+  	if(tema){
+		document.querySelector("body").className = tema;
+  	}else{
+  		
+  			document.querySelector("body").className = "bg-theme bg-theme1";
+  	}
+  </script>
 </body>
 </html>
