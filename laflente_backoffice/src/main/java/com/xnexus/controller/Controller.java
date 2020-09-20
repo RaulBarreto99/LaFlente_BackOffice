@@ -13,4 +13,31 @@ public class Controller {
 		ModelAndView mv = new ModelAndView("index.html");
 		return mv;
 	}
+	
+	@RequestMapping("/cadastrarProduto")
+	@GetMapping
+	public ModelAndView produto() {
+		ModelAndView mv = new ModelAndView("cadastrarProduto.html");
+		return mv;
+	}
+	
+	@RequestMapping("/cadastrarEntradaProduto")
+	@GetMapping
+	public ModelAndView cadastrarEntradaProduto() {
+		ModelAndView mv = new ModelAndView("cadastrarEntradaProduto.html");
+		return mv;
+	}
+
+	@RequestMapping("/estoque")
+	@GetMapping
+	public ModelAndView estoque() {
+		ModelAndView mv = new ModelAndView("estoque.html");
+		return mv;
+	}
+	@RequestMapping("/cadastrarUsuario")
+	@GetMapping
+	public ModelAndView usuario() {
+		ModelAndView mv = new ModelAndView("cadastrarUsuario.html");
+		return mv;
+	}
 }
