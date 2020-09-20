@@ -9,8 +9,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,21 +55,36 @@ public class ProdutoRestController {
 
         
         if(optional.isPresent()){
-        	Produto dbProduto = optional.get();
+        	Produto produtos = optional.get();
 
-        	dbProduto.setNome(produto.getNome());
-        	dbProduto.setPreco(produto.getPreco());
-        	dbProduto.setQuantidade(produto.getQuantidade());
-        	dbProduto.setPalavraChave(produto.getPalavraChave());
-        	dbProduto.setDescricaoCurta(produto.getDescricaoCurta());
-        	dbProduto.setDescricaoDetalhada(produto.getDescricaoDetalhada());
-        	dbProduto.setImagem(produto.getImagem());
+        	produtos.setNome(produto.getNome());
+        	produtos.setPreco(produto.getPreco());
+        	produtos.setQuantidade(produto.getQuantidade());
+        	produtos.setPalavraChave(produto.getPalavraChave());
+        	produtos.setDescricaoCurta(produto.getDescricaoCurta());
+        	produtos.setDescricaoDetalhada(produto.getDescricaoDetalhada());
+        	produtos.setImagem(produto.getImagem());
 
-            return ResponseEntity.ok(dbProduto);
+            return ResponseEntity.ok(produtos);
         }
 
         return ResponseEntity.notFound().build();
     }
+    
+    @PatchMapping("/{codigo}")
+    @Transactional
+    public ResponseEntity<?> removerProduto(@PathVariable Long codigo, @RequestBody String status){
 
+        Optional<Produto> optional = produtoRepository.findById(codigo);
+
+        if(optional.isPresent()){
+        	Produto produtos = optional.get();
+
+        	produtos.setStatus(status);
+        	return ResponseEntity.ok(produtos);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 	
 }
