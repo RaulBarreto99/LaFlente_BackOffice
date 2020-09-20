@@ -34,6 +34,7 @@ public class Controller {
 		ModelAndView mv = new ModelAndView("estoque.html");
 		return mv;
 	}
+	
 	@RequestMapping("/cadastrarUsuario")
 	@GetMapping
 	public ModelAndView usuario() {
