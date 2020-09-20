@@ -90,62 +90,78 @@ $(function () {
 
     function theme1() {
       $('body').attr('class', 'bg-theme bg-theme1');
+      
+      localStorage.setItem("tema", "bg-theme bg-theme1");
     }
 
     function theme2() {
       $('body').attr('class', 'bg-theme bg-theme2');
+      localStorage.setItem("tema", "bg-theme bg-theme2");
     }
 
     function theme3() {
       $('body').attr('class', 'bg-theme bg-theme3');
+      localStorage.setItem("tema", "bg-theme bg-theme3");
     }
 
     function theme4() {
       $('body').attr('class', 'bg-theme bg-theme4');
+      localStorage.setItem("tema", "bg-theme bg-theme4");
     }
 	
 	function theme5() {
       $('body').attr('class', 'bg-theme bg-theme5');
+      localStorage.setItem("tema", "bg-theme bg-theme5");
     }
 	
 	function theme6() {
       $('body').attr('class', 'bg-theme bg-theme6');
+      localStorage.setItem("tema", "bg-theme bg-theme6");
     }
 
     function theme7() {
       $('body').attr('class', 'bg-theme bg-theme7');
+      localStorage.setItem("tema", "bg-theme bg-theme7");
     }
 
     function theme8() {
       $('body').attr('class', 'bg-theme bg-theme8');
+      localStorage.setItem("tema", "bg-theme bg-theme8");
     }
 
     function theme9() {
       $('body').attr('class', 'bg-theme bg-theme9');
+      localStorage.setItem("tema", "bg-theme bg-theme9");
     }
 
     function theme10() {
       $('body').attr('class', 'bg-theme bg-theme10');
+      localStorage.setItem("tema", "bg-theme bg-theme10");
     }
 
     function theme11() {
       $('body').attr('class', 'bg-theme bg-theme11');
+      localStorage.setItem("tema", "bg-theme bg-theme11");
     }
 
     function theme12() {
       $('body').attr('class', 'bg-theme bg-theme12');
+      localStorage.setItem("tema", "bg-theme bg-theme12");
     }
 	
 	function theme13() {
       $('body').attr('class', 'bg-theme bg-theme13');
+      localStorage.setItem("tema", "bg-theme bg-theme13");
     }
 	
 	function theme14() {
       $('body').attr('class', 'bg-theme bg-theme14');
+      localStorage.setItem("tema", "bg-theme bg-theme14");
     }
 	
 	function theme15() {
       $('body').attr('class', 'bg-theme bg-theme15');
+      localStorage.setItem("tema", "bg-theme bg-theme15");
     }
 
 
