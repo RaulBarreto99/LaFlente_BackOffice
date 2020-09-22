@@ -180,7 +180,7 @@
 								</div>
 								<div class="form-group py-2">
 									<label for="inputImagem">Selecionar uma imagem</label><br>
-									<input type="file" />
+									<input id="inputImagem" type="file" multiple="multiple"/>
 								</div>
 								<div class="form-group" align="center">
 									<button type="button" onclick="cadastrarProduto()"
@@ -188,16 +188,8 @@
 										<i class="icon-lock"></i> Cadastrar
 									</button>
 								</div>
-								<div class="form-group" align="center">
-									<button type="submit" class="btn btn-light btn-round px-5" enabled="false">
-										<i class="icon-lock"></i> Alterar
-									</button>
-								</div>
-								<div class="form-group" align="center">
-									<button type="submit" class="btn btn-light btn-round px-5">
-										<i class="icon-lock"></i> Deletar
-									</button>
-								</div>
+								
+								
 							</form>
 						</div>
 					</div>
@@ -217,7 +209,7 @@
 										<th scope="col">Preço</th>
 										<th scope="col">Quantidade</th>
 										<th scope="col">Status</th>
-										<th scope="col">Preencher Campos</th>
+										<th scope="col">Inativar</th>
 										<th scope="col">Detalhar</th>
 									</tr>
 								</thead>
@@ -341,7 +333,6 @@
 
 
 		function cadastrarProduto() {
-			console.log('opa')
 			event.preventDefault();
 
 			let inputNome = document.getElementById("inputNome");
@@ -360,35 +351,55 @@
 				descricaoDetalhada: inputDescricaoDetalhada.value
 			};
 
-			post("http://localhost:8080/produto", produto).then(() => {
-				atualizarTabela();
+			post("http://localhost:8080/produto", produto).then(produto => {
+				putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
+					atualizarTabela();
+				});
+				
 			});
 		}
 		
-		function postImagem(){
-			
+		function putImagem(url, produto){
+			return new Promise((resolve, reject) => {
+				let inputImagem = document.getElementById("inputImagem");
+
+				let formData = new FormData();
+				formData.append("imagem", inputImagem.files[0]);
+				
+				let xhr = new XMLHttpRequest();
+				xhr.open("PUT", url, true);
+				
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 200) {
+
+							resolve();
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+				
+				xhr.send(formData);		
+			});
 		}
 
 		function post(url, dados) {
 			return new Promise((resolve, reject) => {
 
-				console.log('opa2')
-
 				let xhr = new XMLHttpRequest();
 				xhr.open("POST", url, true);
 				xhr.setRequestHeader("Content-type", "application/json");
 				xhr.onreadystatechange = () => {
-					console.log('opa3')
 
 					if (xhr.readyState == 4) {
 
 						if (xhr.status == 201) {
-
-							resolve();
-							console.log('opa4')
+							resolve(JSON.parse(xhr.responseText));
 						} else {
 							reject(xhr.responseText);
-							console.log('opa deu ruim')
 						}
 					}
 				};
@@ -426,7 +437,6 @@
 
 		function atualizarTabela() {
 			get("http://localhost:8080/produto").then(produtos => {
-				console.log(produtos);
 				let tabela = document.getElementById("tabelaBody");
 				tabela.innerHTML = "";
 				produtos.forEach(produto => {
@@ -438,7 +448,7 @@
 						<td>${produto.status}</td>
 						<td><button type="button"
 								class="btn btn-light btn-round px-1" id="preencher${produto.id}">
-								<i class="icon-lock"></i> Preencher
+								<i class="icon-lock"></i> Inativar
 							</button></td>
 						<td><button type="button"
 								class="btn btn-light btn-round px-1" id="detalhar${produto.id}">
