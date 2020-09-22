@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -38,8 +39,7 @@ public class ProdutoRestController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Produto> cadastrarProduto(@RequestBody @Valid Produto produto,
-			@RequestParam MultipartFile imagem, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<Produto> cadastrarProduto(@RequestBody @Valid Produto produto, UriComponentsBuilder uriBuilder) {
 		produto.setStatus("ativo");
 		produtoRepository.save(produto);
 
@@ -48,32 +48,28 @@ public class ProdutoRestController {
 		return ResponseEntity.created(uri).body(produto);
 	}
 
-	@PutMapping("/imagem/{codigo}")
+	@PutMapping(value = "/imagem/{codigo}-{nome}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@Transactional
-	public void uploadImagem(@PathVariable Long codigo, @RequestParam MultipartFile imagem,
+	public void uploadImagem(@RequestParam MultipartFile imagem, @PathVariable Long codigo, @PathVariable String nome,
 			UriComponentsBuilder uriBuilder) {
 
 		try {
-			
-			Optional<Produto> optional = produtoRepository.findById(codigo);
 
-			if (optional.isPresent()) {
-				
-				Produto produtos = optional.get();
-				
 				File ficheiro = new File("C:\\laflente\\");
 				ficheiro.mkdirs();
-				
+
 				byte[] bytes = imagem.getBytes();
-				
-				Path path = Paths.get("C:\\laflente\\"+produtos.getCodigo()+" - "+imagem.getOriginalFilename());
+
+				Path path = Paths.get("C:\\laflente\\" + codigo + "_" + nome + "_" + imagem.getOriginalFilename());
 				Files.write(path, bytes);
+				
+				Optional<Produto> optional = produtoRepository.findById(codigo);
 
-				produtos.setImagem("C:\\laflente\\"+produtos.getCodigo()+imagem.getOriginalFilename());
+				if (optional.isPresent()) {
+					Produto produtos = optional.get();
 
-
-			}
-			
+					produtos.setImagem("C:\\laflente\\" +codigo + "_" + nome + "_" + imagem.getOriginalFilename());
+				}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
