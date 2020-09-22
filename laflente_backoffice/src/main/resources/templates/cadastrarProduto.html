@@ -188,16 +188,8 @@
 										<i class="icon-lock"></i> Cadastrar
 									</button>
 								</div>
-								<div class="form-group" align="center">
-									<button type="submit" class="btn btn-light btn-round px-5" enabled="false">
-										<i class="icon-lock"></i> Alterar
-									</button>
-								</div>
-								<div class="form-group" align="center">
-									<button type="submit" class="btn btn-light btn-round px-5">
-										<i class="icon-lock"></i> Deletar
-									</button>
-								</div>
+								
+								
 							</form>
 						</div>
 					</div>
@@ -217,7 +209,7 @@
 										<th scope="col">Preço</th>
 										<th scope="col">Quantidade</th>
 										<th scope="col">Status</th>
-										<th scope="col">Preencher Campos</th>
+										<th scope="col">Inativar</th>
 										<th scope="col">Detalhar</th>
 									</tr>
 								</thead>
@@ -456,7 +448,7 @@
 						<td>${produto.status}</td>
 						<td><button type="button"
 								class="btn btn-light btn-round px-1" id="preencher${produto.id}">
-								<i class="icon-lock"></i> Preencher
+								<i class="icon-lock"></i> Inativar
 							</button></td>
 						<td><button type="button"
 								class="btn btn-light btn-round px-1" id="detalhar${produto.id}">
