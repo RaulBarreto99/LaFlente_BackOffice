@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -107,6 +108,21 @@ public class ProdutoRestController {
 
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/{codigo}")
+	@Transactional
+	public ResponseEntity<Produto> buscarProduto(@PathVariable Long codigo) {
+
+		Optional<Produto> optional = produtoRepository.findById(codigo);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+
+			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
 
 	@PatchMapping("/{codigo}")
 	@Transactional
@@ -122,6 +138,26 @@ public class ProdutoRestController {
 		}
 
 		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/imagem/{codigo}")
+	@ResponseBody
+	public byte[] retornaImagem(@PathVariable Long codigo) {
+		Optional<Produto> optional = produtoRepository.findById(codigo);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+
+			File file = new File(produtos.getImagem());
+			try {
+				return Files.readAllBytes(file.toPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+		
 	}
 
 }
