@@ -26,7 +26,7 @@ import com.xnexus.controller.model.repository.EntradaProdutoRepository;
 import com.xnexus.controller.model.repository.ProdutoRepository;
 
 @RestController
-@RequestMapping("/cadastrarEntradaProduto")
+@RequestMapping("/cadastrarEntrada")
 public class EntradaProdutoRestController {
 	
 	@Autowired
