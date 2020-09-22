@@ -9,27 +9,27 @@
 	<meta name="author" content="" />
 	<title>LaFlente</title>
 	<!-- loader-->
-	<link href="assets/css/pace.min.css" rel="stylesheet" />
-	<script src="assets/js/pace.min.js"></script>
+	<link href="../assets/css/pace.min.css" rel="stylesheet" />
+	<script src="../assets/js/pace.min.js"></script>
 	<!--favicon-->
-	<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
 	<!-- simplebar CSS-->
-	<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<!-- Bootstrap core CSS-->
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
 	<!-- animate CSS-->
-	<link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+	<link href="../assets/css/animate.css" rel="stylesheet" type="text/css" />
 	<!-- Icons CSS-->
-	<link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+	<link href="../assets/css/icons.css" rel="stylesheet" type="text/css" />
 	<!-- Sidebar CSS-->
-	<link href="assets/css/sidebar-menu.css" rel="stylesheet" />
+	<link href="../assets/css/sidebar-menu.css" rel="stylesheet" />
 	<!-- Custom Style-->
-	<link href="assets/css/app-style.css" rel="stylesheet" />
+	<link href="../assets/css/app-style.css" rel="stylesheet" />
 
 
 </head>
 
-<body class="bg-theme bg-theme1">
+<body class="bg-theme bg-theme1" >
 
 	<!-- start loader -->
 	<div id="pageloader-overlay" class="visible incoming">
@@ -135,7 +135,8 @@
 				<div class="col-lg-6">
 					<div class="card">
 						<div class="card-body">
-							<div class="card-title" align="center">Cadastrar Produtos</div>
+							<div class="card-title" align="center">Editar Produto</div>
+							 <img id="imagem" th:src="@{/produto/imagem/{codigo}(codigo=${codigo})}" width="300" height="300">
 							<hr>
 							<form>
 								<div class="form-group">
@@ -176,45 +177,15 @@
 										Detalhada</label> <input type="text" class="form-control form-control-rounded"
 										id="inputDescricaoDetalhada" placeholder="Descrição Detalhada">
 								</div>
-								<div class="form-group py-2">
-									<label for="inputImagem">Selecionar uma imagem</label><br>
-									<input id="inputImagem" type="file" multiple="multiple"/>
-								</div>
 								<div class="form-group" align="center">
 									<button type="button" onclick="cadastrarProduto()"
 										class="btn btn-light btn-round px-5">
-										<i class="icon-lock"></i> Cadastrar
+										<i class="icon-lock"></i> Salvar Alterações
 									</button>
 								</div>
 								
 								
 							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--End Row-->
-			<div class="col-lg-10">
-				<div class="card">
-					<div class="card-body" align="cent">
-						<h5 class="card-title">Produtos cadastrados</h5>
-						<div class="table-responsive">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th scope="col">Código</th>
-										<th scope="col">Nome</th>
-										<th scope="col">Preço</th>
-										<th scope="col">Quantidade</th>
-										<th scope="col">Status</th>
-										<th scope="col">Inativar</th>
-										<th scope="col">Detalhar</th>
-									</tr>
-								</thead>
-								<tbody id="tabelaBody">
-
-								</tbody>
-							</table>
 						</div>
 					</div>
 				</div>
@@ -283,22 +254,30 @@
 
 
 	<!-- Bootstrap core JavaScript-->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="../assets/js/jquery.min.js"></script>
+	<script src="../assets/js/popper.min.js"></script>
+	<script src="../assets/js/bootstrap.min.js"></script>
 
 	<!-- simplebar js -->
-	<script src="assets/plugins/simplebar/js/simplebar.js"></script>
+	<script src="../assets/plugins/simplebar/js/simplebar.js"></script>
 	<!-- sidebar-menu js -->
-	<script src="assets/js/sidebar-menu.js"></script>
+	<script src="../assets/js/sidebar-menu.js"></script>
 
 	<!-- Custom scripts -->
-	<script src="assets/js/app-script.js"></script>
+	<script src="../assets/js/app-script.js"></script>
 
 	<script>
 		var palavras = [];
+		
+		let url = window.location.href.split('/');
+		let codigo = url[4];
+		
+		console.log(codigo)
+		
+		get("http://localhost:8080/produto/"+codigo).then(produto => {
+			preencherCampos(produto);
+		})
 
-		atualizarTabela();
 
 		let tema = localStorage.getItem("tema");
 
@@ -309,102 +288,6 @@
 			document.querySelector("body").className = "bg-theme bg-theme1";
 		}
 
-		function adicionarPalavraChave() {
-			event.preventDefault();
-			let input = document.getElementById("inputPalavraChave");
-
-			let palavra = { palavraChave: input.value };
-
-			let listaPalavras = document.getElementById("palavrasChaves");
-
-			palavras.push(palavra);
-
-			listaPalavras.innerHTML = "";
-
-			palavras.forEach(palavraChave => {
-				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>`);
-			});
-
-			input.value = "";
-		}
-
-
-
-		function cadastrarProduto() {
-			event.preventDefault();
-
-			let inputNome = document.getElementById("inputNome");
-			let inputPreco = document.getElementById("inputPreco");
-			let inputQuantidade = document.getElementById("inputQuantidade");
-			let palavrasChaves = palavras;
-			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
-			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
-
-			let produto = {
-				nome: inputNome.value,
-				preco: inputPreco.value,
-				quantidade: inputQuantidade.value,
-				palavraChave: palavras,
-				descricaoCurta: inputDescricaoCurta.value,
-				descricaoDetalhada: inputDescricaoDetalhada.value
-			};
-
-			post("http://localhost:8080/produto", produto).then(produto => {
-				putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
-					atualizarTabela();
-				});
-				
-			});
-		}
-		
-		function putImagem(url, produto){
-			return new Promise((resolve, reject) => {
-				let inputImagem = document.getElementById("inputImagem");
-
-				let formData = new FormData();
-				formData.append("imagem", inputImagem.files[0]);
-				
-				let xhr = new XMLHttpRequest();
-				xhr.open("PUT", url, true);
-				
-				xhr.onreadystatechange = () => {
-
-					if (xhr.readyState == 4) {
-
-						if (xhr.status == 200) {
-
-							resolve();
-						} else {
-							reject(xhr.responseText);
-						}
-					}
-				};
-				
-				xhr.send(formData);		
-			});
-		}
-
-		function post(url, dados) {
-			return new Promise((resolve, reject) => {
-
-				let xhr = new XMLHttpRequest();
-				xhr.open("POST", url, true);
-				xhr.setRequestHeader("Content-type", "application/json");
-				xhr.onreadystatechange = () => {
-
-					if (xhr.readyState == 4) {
-
-						if (xhr.status == 201) {
-							resolve(JSON.parse(xhr.responseText));
-						} else {
-							reject(xhr.responseText);
-						}
-					}
-				};
-
-				xhr.send(JSON.stringify(dados));
-			});
-		}
 
 		function get(url) {
 			return new Promise((resolve, reject) => {
@@ -418,7 +301,8 @@
 					if (xhr.readyState == 4) {
 
 						if (xhr.status == 200) {
-
+	
+							console.log(xhr.responseText)
 							resolve(JSON.parse(xhr.responseText));
 
 						} else {
@@ -431,38 +315,9 @@
 				xhr.send();
 			});
 		}
-
-		function atualizarTabela() {
-			get("http://localhost:8080/produto").then(produtos => {
-				let tabela = document.getElementById("tabelaBody");
-				tabela.innerHTML = "";
-				produtos.forEach(produto => {
-					tabela.insertAdjacentHTML('beforeend', `<tr>
-						<th scope="row">${produto.codigo}</th>
-						<td>${produto.nome}</td>
-						<td>${produto.preco}</td>
-						<td>${produto.quantidade}</td>
-						<td>${produto.status}</td>
-						<td><button type="button"
-								class="btn btn-light btn-round px-1" id="preencher${produto.codigo}">
-								<i class="icon-lock"></i> Desativar
-							</button></td>
-						<td><a type="button"
-								class="btn btn-light btn-round px-1" href="http://localhost:8080/detalharProduto/${produto.codigo}" id="detalhar${produto.codigo}">
-								<i class="icon-lock"></i> Detalhar
-							</a></td>
-					</tr>`);
-				});
-			});
-		}
 		
-		function detalhar(id){
-
-			let xhr = new XMLHttpRequest();
-
-			xhr.open('GET', "http://localhost:8080/detalharProduto/"+id);
-
-			xhr.send();
+		function preencherCampos(produto){
+			
 		}
 	</script>
 </body>
