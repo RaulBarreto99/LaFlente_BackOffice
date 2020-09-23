@@ -47,16 +47,14 @@
 		<!--Start sidebar-wrapper-->
 		<div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
 			<div class="brand-logo">
-				<a href="/"> <h1>LaFlente</h1>
-					
-				</a>
+					<h5 class="logo-text">LaFlente</h5>
 			</div>
 			<ul class="sidebar-menu do-nicescrol">
 				<li class="sidebar-header">Menus</li>
 				<li><a href="/"> <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
 					</a></li>
 
-				<li><a href="cadastrarProduto.html"> <i class="zmdi zmdi-invert-colors"></i> <span>Cadastrar
+				<li><a href="/cadastrarProduto"> <i class="zmdi zmdi-invert-colors"></i> <span>Cadastrar
 							Produto</span>
 					</a></li>
 
@@ -136,7 +134,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title" align="center">Editar Produto</div>
-							 <img id="imagem" th:src="@{/produto/imagem/{codigo}(codigo=${codigo})}" width="300" height="300">
+							 <div class="mt-5" align="center"><img id="imagem" th:src="@{/produto/imagem/{codigo}(codigo=${codigo})}" width="300" height="300"></div>
 							<hr>
 							<form>
 								<div class="form-group">
@@ -156,14 +154,6 @@
 								</div>
 								<div class="form-group ">
 									<label for="inputPalavraChave">Palavra Chave</label>
-									<div class="form-group form-inline">
-										<input type="text" class="form-control form-control-rounded"
-											id="inputPalavraChave" placeholder="Palavra Chave">
-										<button type="submit" class="btn btn-light btn-round ml-3"
-											onclick="adicionarPalavraChave()">
-											<i class=""> Adicionar</i>
-										</button>
-									</div>
 									<ul id="palavrasChaves">
 									</ul>
 								</div>
@@ -178,9 +168,17 @@
 										id="inputDescricaoDetalhada" placeholder="Descrição Detalhada">
 								</div>
 								<div class="form-group" align="center">
-									<button type="button" onclick="cadastrarProduto()"
+									<button type="button" onclick="atualizarProduto()"
+										class="btn btn-light btn-round px-5" id="salvar">
+										<i class=""></i> Salvar Alterações
+									</button>
+								</div>
+								
+								<div class="form-group" align="center">
+									<button type="button" onclick="editarProduto()"
+										 id="editar"
 										class="btn btn-light btn-round px-5">
-										<i class="icon-lock"></i> Salvar Alterações
+										<i class=""></i> Editar
 									</button>
 								</div>
 								
@@ -317,7 +315,116 @@
 		}
 		
 		function preencherCampos(produto){
+			let inputNome = document.getElementById("inputNome");
+			let inputPreco = document.getElementById("inputPreco");
+			let inputQuantidade = document.getElementById("inputQuantidade");
+			let inputPalavraChave = document.getElementById("inputPalavraChave");
+			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
+			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let btnAdicionar = document.getElementById("adicionar");
+			let btnSalvar = document.getElementById("salvar");
 			
+			palavras = produto.palavraChave;
+			
+			inputNome.value = produto.nome;
+			inputPreco.value = produto.preco;
+			inputQuantidade.value = produto.quantidade;
+			inputDescricaoCurta.value = produto.descricaoCurta;
+			inputDescricaoDetalhada.value = produto.descricaoDetalhada;
+			
+			preencherPalavrasChaves(produto);
+			
+			inputNome.disabled = true;
+			inputPreco.disabled = true;
+			inputQuantidade.disabled = true;
+			inputDescricaoCurta.disabled = true;
+			inputDescricaoDetalhada.disabled = true;
+			btnSalvar.disabled = true;
+			
+		}
+		
+		function preencherPalavrasChaves(produto){
+
+			let listaPalavras = document.getElementById("palavrasChaves");
+
+
+			listaPalavras.innerHTML = "";
+
+			produto.palavraChave.forEach(palavraChave => {
+				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>`);
+			});
+
+		}
+		
+		function atualizarProduto(){
+			
+			let inputNome = document.getElementById("inputNome");
+			let inputPreco = document.getElementById("inputPreco");
+			let inputQuantidade = document.getElementById("inputQuantidade");
+			let palavrasChaves = palavras;
+			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
+			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+
+			let produto = {
+				codigo: parseInt(codigo),
+				nome: inputNome.value,
+				preco: inputPreco.value,
+				quantidade: inputQuantidade.value,
+				palavraChave: palavras,
+				descricaoCurta: inputDescricaoCurta.value,
+				descricaoDetalhada: inputDescricaoDetalhada.value
+			};
+			
+			
+			put("http://localhost:8080/produto/"+produto.codigo, produto).then(() => {
+				let xhr = new XMLHttpRequest();
+
+				xhr.open('GET', "http://localhost:8080/cadastrarProduto");
+			
+				xhr.send();
+			});
+		}
+		
+		function put(url, dados) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+				xhr.open("PUT", url, true);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 201) {
+							resolve(JSON.parse(xhr.responseText));
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+
+				xhr.send(JSON.stringify(dados));
+			});
+		}
+		
+		function editarProduto(){
+			let inputNome = document.getElementById("inputNome");
+			let inputPreco = document.getElementById("inputPreco");
+			let inputQuantidade = document.getElementById("inputQuantidade");
+			let inputPalavraChave = document.getElementById("inputPalavraChave");
+			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
+			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let btnAdicionar = document.getElementById("adicionar");
+			let btnSalvar = document.getElementById("salvar");
+			let btnEditar = document.getElementById("editar");
+			
+			inputNome.disabled = false;
+			inputPreco.disabled = false;
+			inputQuantidade.disabled = false;
+			inputDescricaoCurta.disabled = false;
+			inputDescricaoDetalhada.disabled = false;
+			btnSalvar.disabled = false;
+			btnEditar.disabled = true;
 		}
 	</script>
 </body>
