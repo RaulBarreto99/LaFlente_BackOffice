@@ -1,12 +1,19 @@
 package com.xnexus.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.xnexus.controller.model.repository.ProdutoRepository;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/")
 public class Controller {
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
 	
 	@GetMapping
 	public ModelAndView hello() {
@@ -18,6 +25,14 @@ public class Controller {
 	@GetMapping
 	public ModelAndView produto() {
 		ModelAndView mv = new ModelAndView("cadastrarProduto.html");
+		return mv;
+	}
+	
+	@RequestMapping("/detalharProduto/{codigo}")
+	@GetMapping
+	public ModelAndView detalharProduto(@PathVariable Long codigo) {
+		ModelAndView mv = new ModelAndView("detalharProduto.html");
+		mv.addObject("codigo", codigo);
 		return mv;
 	}
 	
