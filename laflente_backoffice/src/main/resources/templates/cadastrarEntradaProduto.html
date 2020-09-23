@@ -289,7 +289,7 @@
 		};
 		
 		post("http://localhost:8080/cadastrarEntrada", entrada).then(entrada => {
-		put("http://localhost:8080/cadastrarEntrada/"+entrada.codigo, entrada).then(() => {
+		put("http://localhost:8080/cadastrarEntrada/"+entrada.codigoProduto, entrada).then(() => {
 			atualizarTabela();
 		});
 		});
