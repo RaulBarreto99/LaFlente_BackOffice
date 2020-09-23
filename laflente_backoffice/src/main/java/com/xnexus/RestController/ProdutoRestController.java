@@ -41,7 +41,7 @@ public class ProdutoRestController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Produto> cadastrarProduto(@RequestBody @Valid Produto produto, UriComponentsBuilder uriBuilder) {
-		produto.setStatus("ativo");
+		produto.setStatus("ATIVO");
 		produtoRepository.save(produto);
 
 		URI uri = uriBuilder.path("/produto/{codigo}").buildAndExpand(produto.getCodigo()).toUri();
@@ -98,10 +98,10 @@ public class ProdutoRestController {
 			produtos.setNome(produto.getNome());
 			produtos.setPreco(produto.getPreco());
 			produtos.setQuantidade(produto.getQuantidade());
-			produtos.setPalavraChave(produto.getPalavraChave());
+			//produtos.setPalavraChave(produto.getPalavraChave());
 			produtos.setDescricaoCurta(produto.getDescricaoCurta());
 			produtos.setDescricaoDetalhada(produto.getDescricaoDetalhada());
-			produtos.setImagem(produto.getImagem());
+			//produtos.setImagem(produto.getImagem());
 
 			return ResponseEntity.ok(produtos);
 		}
