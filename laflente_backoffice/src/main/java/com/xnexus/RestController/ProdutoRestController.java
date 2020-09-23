@@ -123,6 +123,47 @@ public class ProdutoRestController {
 
 		return ResponseEntity.notFound().build();
 	}
+	@GetMapping("/{nome}")
+	@Transactional
+	public ResponseEntity<Produto> buscarProdutoNome(@PathVariable String nome) {
+		Optional<Produto> optional = produtoRepository.findByNome(nome);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+
+			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/{statusAtivo}")
+	@Transactional
+	public ResponseEntity<Produto> buscarProdutoStatusAtivo(@PathVariable String status,@RequestBody @Valid Produto produto) {
+		produto.setStatus("ativo");
+		Optional<Produto> optional = produtoRepository.findByStatus(status);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+	@GetMapping("/{statusInativo}")
+	@Transactional
+	public ResponseEntity<Produto> buscarProdutoStatusInativo(@PathVariable String status,@RequestBody @Valid Produto produto) {
+		produto.setStatus("inativo");
+		Optional<Produto> optional = produtoRepository.findByStatus(status);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+			
+			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
 
 	@PatchMapping("/{codigo}")
 	@Transactional
