@@ -26,11 +26,15 @@ public class UsuarioRestController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	
+	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Usuario> cadastrarProduto(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder) {
 		
+		
 		usuarioRepository.save(usuario);
+		
 
 		URI uri = uriBuilder.path("/usuario/{codigo}").buildAndExpand(usuario.getCodigo()).toUri();
 

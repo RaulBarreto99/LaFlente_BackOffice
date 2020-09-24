@@ -40,6 +40,7 @@
 		 	</div>
 		  <div class="card-title text-uppercase text-center py-3">Cadastrar Usuário</div>
 		    <form>
+		    <h3 id="mensagem" align="center"></h3>
 			  <div class="form-group">
 			  <label for="exampleInputName" class="sr-only" id="labelNome">Name</label>
 			   <div class="position-relative has-icon-right">
@@ -170,6 +171,7 @@
 			};
 
 			post("http://localhost:8080/usuario", usuario).then(usuario => {usuario.codigo +"-"+usuario.nome +"-"+ usuario.email +"-"+ usuario.senha+"-"+usuario.tipoAcesso});
+			document.getElementById("mensagem").textContent = "Usuário Cadastrado com sucesso!!!";
 		}
 		
 		function post(url, dados) {
