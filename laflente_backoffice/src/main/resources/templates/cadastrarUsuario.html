@@ -41,7 +41,7 @@
 		  <div class="card-title text-uppercase text-center py-3">Cadastrar Usuário</div>
 		    <form>
 			  <div class="form-group">
-			  <label for="exampleInputName" class="sr-only" id="inputNome">Name</label>
+			  <label for="exampleInputName" class="sr-only">Name</label>
 			   <div class="position-relative has-icon-right">
 				  <input type="text" id="exampleInputName" class="form-control input-shadow" placeholder="Insira seu nome">
 				  <div class="form-control-position">
@@ -50,7 +50,7 @@
 			   </div>
 			  </div>
 			  <div class="form-group">
-			  <label for="exampleInputEmailId" class="sr-only" id="inputEmail">Email ID</label>
+			  <label for="exampleInputEmailId" class="sr-only">Email ID</label>
 			   <div class="position-relative has-icon-right">
 				  <input type="text" id="exampleInputEmailId" class="form-control input-shadow" placeholder="Insira seu email">
 				  <div class="form-control-position">
@@ -60,7 +60,7 @@
 			   </div>
 			  </div>
 			  <div class="form-group">
-			   <label for="exampleInputPassword" class="sr-only" id="inputSenha">Password</label>
+			   <label for="exampleInputPassword" class="sr-only">Password</label>
 			   <div class="position-relative has-icon-right">
 				  <input type="text" id="exampleInputPassword" class="form-control input-shadow" placeholder="Insira sua senha">
 				  <div class="form-control-position">
@@ -68,7 +68,7 @@
 				  </div>
 				  <br>
 				  <div class="position-relative has-icon-right">
-      			 <label for="exampleInputPassword" class="sr-only" id="inputTipoAcesso">Tipo</label>
+      			 <label for="exampleInputPassword" class="sr-only">Tipo</label>
       				<select id="inputState" class="form-control">
         			<option selected>Administrador</option>
         			<option>Estoquista</option>
@@ -79,7 +79,7 @@
 			  </div>
 			  
 			  
-			 <button type="button" onclick="cadastrarUsuario()" class="btn btn-light btn-block waves-effect waves-light" >Cadastrar</button>
+			 <button type="button" class="btn btn-light btn-block waves-effect waves-light">Cadastrar</button>
 			 <button type="button" class="btn btn-light btn-block waves-effect waves-light">Voltar</button>
 			  
 			
@@ -152,26 +152,6 @@
   		
   			document.querySelector("body").className = "bg-theme bg-theme1";
   	}
-
-    function cadastrarUsuario() {
-			event.preventDefault();
-
-			let nome = document.getElementById("inputNome");
-			let email = document.getElementById("inputEmail");
-			let senha = document.getElementById("inputSenha");
-			let tipoAcesso = document.getElementById("inputTipoAcesso");
-
-
-			let usuario = {
-				nome: inputNome.value,
-				email: inputEmail.value,
-				senha: inputSenha.value,
-		  	tipoAcesso: inputTipoAcesso.value,
-			
-			};
-
-			post("http://localhost:8080/usuario", usuario).then(usuario => {usuario.codigo +"-"+usuario.nome +"-"+ usuario.email +"-"+ usuario.senha+"-"+usuario.tipoAcesso});
-		
   </script>
 </body>
 </html>
