@@ -1,5 +1,6 @@
 package com.xnexus.controller.model.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 	Optional<Produto> findByNome(String nome);
 
-	Optional<Produto> findByStatus(String status);
+	List<Produto> findByStatus(String status);
 	
 	 
 	
