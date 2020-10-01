@@ -41,7 +41,7 @@
    <!--Start sidebar-wrapper-->
    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
      <div class="brand-logo">
-      <a href="index.html">
+      <a href="/">
        <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
        <h5 class="logo-text">LaFlente</h5>
      </a>
@@ -49,7 +49,7 @@
    <ul class="sidebar-menu do-nicescrol">
       <li class="sidebar-header">Menus</li>
       <li>
-        <a href="index.html">
+        <a href="/">
           <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
         </a>
       </li>
@@ -118,31 +118,11 @@
      </a>
     </li>
     <li class="nav-item">
-      <form class="search-bar">
-        <input type="text" class="form-control" placeholder="Pesquisar">
-         <a href="javascript:void();"><i class="icon-magnifier"></i></a>
-      </form>
+      
     </li>
   </ul>
      
-  <ul class="navbar-nav align-items-center right-nav-link">
-    <li class="nav-item dropdown-lg">
-      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
-      <i class="fa fa-envelope-open-o"></i></a>
-    </li>
-    <li class="nav-item dropdown-lg">
-      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
-      <i class="fa fa-bell-o"></i></a>
-    </li>
-    <li class="nav-item language">
-      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();"><i class="fa fa-flag"></i></a>
-      <ul class="dropdown-menu dropdown-menu-right">
-          <li class="dropdown-item"> <i class="flag-icon flag-icon-gb mr-2"></i> English</li>
-          <li class="dropdown-item"> <i class="flag-icon flag-icon-fr mr-2"></i> French</li>
-          <li class="dropdown-item"> <i class="flag-icon flag-icon-cn mr-2"></i> Chinese</li>
-          <li class="dropdown-item"> <i class="flag-icon flag-icon-de mr-2"></i> German</li>
-        </ul>
-    </li>
+  
     <li class="nav-item">
       <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
         <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
@@ -265,5 +245,15 @@
   <script src='assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
   <script src="assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>
 	
+	<script>
+  	let tema = localStorage.getItem("tema");
+  	
+  	if(tema){
+		document.querySelector("body").className = tema;
+  	}else{
+  		
+  			document.querySelector("body").className = "bg-theme bg-theme1";
+  	}
+  </script>
 </body>
 </html>
