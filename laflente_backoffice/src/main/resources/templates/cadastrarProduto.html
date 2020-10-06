@@ -212,6 +212,7 @@
 										<th scope="col">Status</th>
 										<th scope="col">Ativar/Inativar</th>
 										<th scope="col">Detalhar</th>
+										<th scope="col">Preview</th>
 									</tr>
 								</thead>
 								<tbody id="tabelaBody">
@@ -457,6 +458,10 @@
 								<td><a type="button"
 										class="btn btn-light btn-round px-2" href="http://localhost:8080/detalharProduto/${produto.codigo}" id="detalhar${produto.codigo}">
 										Detalhar
+									</a></td>
+									<td><a type="button"
+										class="btn btn-light btn-round px-2" href="/preview" id="preview">
+										Preview
 									</a></td>
 							</tr>`);
 					}else{
