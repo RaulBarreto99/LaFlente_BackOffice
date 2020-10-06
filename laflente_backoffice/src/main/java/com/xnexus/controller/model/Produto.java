@@ -41,11 +41,8 @@ public class Produto implements Serializable {
 	private String status;
 
 	
-	@OneToMany(mappedBy="pergunta", cascade= CascadeType.ALL)
-	private List<PerguntaResposta> pergunta;
-	
-	@OneToMany(mappedBy="resposta", cascade= CascadeType.ALL)
-	private List<PerguntaResposta> resposta;
+	@OneToMany(cascade= CascadeType.ALL)
+	private List<PerguntaResposta> perguntaResposta;
 	
 
 	public long getCodigo() {
@@ -118,4 +115,14 @@ public class Produto implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public List<PerguntaResposta> getPerguntaResposta() {
+		return perguntaResposta;
+	}
+
+	public void setPerguntaResposta(List<PerguntaResposta> perguntaResposta) {
+		this.perguntaResposta = perguntaResposta;
+	}
+	
+	
 }
