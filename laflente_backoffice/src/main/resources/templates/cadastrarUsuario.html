@@ -36,64 +36,58 @@
 		<div class="card-body">
 		 <div class="card-content p-2">
 		 	<div class="text-center">
-		 		<img src="assets/images/logo-icon.png" alt="logo icon">
+		 		<h1>LaFlente</h1>
 		 	</div>
-		  <div class="card-title text-uppercase text-center py-3">Sign Up</div>
+		  <div class="card-title text-uppercase text-center py-3">Cadastrar Usuário</div>
 		    <form>
+		    <h3 id="mensagem" align="center"></h3>
 			  <div class="form-group">
-			  <label for="exampleInputName" class="sr-only">Name</label>
+			  <label for="exampleInputName" class="sr-only" id="labelNome">Name</label>
 			   <div class="position-relative has-icon-right">
-				  <input type="text" id="exampleInputName" class="form-control input-shadow" placeholder="Enter Your Name">
+				  <input type="text" id="inputNome" class="form-control input-shadow" placeholder="Insira seu nome">
 				  <div class="form-control-position">
 					  <i class="icon-user"></i>
 				  </div>
 			   </div>
 			  </div>
 			  <div class="form-group">
-			  <label for="exampleInputEmailId" class="sr-only">Email ID</label>
+			  <label for="exampleInputEmailId" class="sr-only" id="labelEmail">Email ID</label>
 			   <div class="position-relative has-icon-right">
-				  <input type="text" id="exampleInputEmailId" class="form-control input-shadow" placeholder="Enter Your Email ID">
+				  <input type="text" id="inputEmail" class="form-control input-shadow" placeholder="Insira seu email">
 				  <div class="form-control-position">
 					  <i class="icon-envelope-open"></i>
 				  </div>
+				  
 			   </div>
 			  </div>
 			  <div class="form-group">
-			   <label for="exampleInputPassword" class="sr-only">Password</label>
+			   <label for="exampleInputPassword" class="sr-only" id="labelPassword">Password</label>
 			   <div class="position-relative has-icon-right">
-				  <input type="text" id="exampleInputPassword" class="form-control input-shadow" placeholder="Choose Password">
+				  <input type="password" id="inputSenha" class="form-control input-shadow" placeholder="Insira sua senha">
 				  <div class="form-control-position">
 					  <i class="icon-lock"></i>
 				  </div>
+				  <br>
+				  <div class="position-relative has-icon-right">
+      			 <label for="exampleInputPassword" class="sr-only" id="labelTipo">Tipo</label>
+      				<select id="inputTipoAcesso" class="form-control">
+        			<option selected>Administrador</option>
+        			<option>Estoquista</option>
+      			</select>
+    			</div>
+			   
 			   </div>
 			  </div>
 			  
-			   <div class="form-group">
-			     <div class="icheck-material-white">
-                   <input type="checkbox" id="user-checkbox" checked="" />
-                   <label for="user-checkbox">I Agree With Terms & Conditions</label>
-			     </div>
-			    </div>
 			  
-			 <button type="button" class="btn btn-light btn-block waves-effect waves-light">Sign Up</button>
-			  <div class="text-center mt-3">Sign Up With</div>
+			 <button type="button" onclick="cadastrarUsuario()" class="btn btn-light btn-block waves-effect waves-light">Cadastrar</button>
+			 <a href="/" type="button" class="btn btn-light btn-block waves-effect waves-light">Voltar</a>
 			  
-			 <div class="form-row mt-4">
-			  <div class="form-group mb-0 col-6">
-			   <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i> Facebook</button>
-			 </div>
-			 <div class="form-group mb-0 col-6 text-right">
-			  <button type="button" class="btn btn-light btn-block"><i class="fa fa-twitter-square"></i> Twitter</button>
-			 </div>
-			</div>
 			
 			 </form>
 		   </div>
 		  </div>
-		  <div class="card-footer text-center py-3">
-		    <p class="text-warning mb-0">Already have an account? <a href="login.html"> Sign In here</a></p>
-		  </div>
-	     </div>
+		  
     
      <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
@@ -159,6 +153,49 @@
   		
   			document.querySelector("body").className = "bg-theme bg-theme1";
   	}
+		function cadastrarUsuario() {
+			event.preventDefault();
+
+			let inputNome = document.getElementById("inputNome");
+			let inputEmail = document.getElementById("inputEmail");
+			let inputSenha = document.getElementById("inputSenha");
+			let inputTipoAcesso = document.getElementById("inputTipoAcesso");
+
+
+			let usuario = {
+				nome: inputNome.value,
+				email: inputEmail.value,
+				senha: inputSenha.value,
+		  		tipoAcesso: inputTipoAcesso.value,
+			
+			};
+
+			post("http://localhost:8080/usuario", usuario).then(usuario => {usuario.codigo +"-"+usuario.nome +"-"+ usuario.email +"-"+ usuario.senha+"-"+usuario.tipoAcesso});
+			document.getElementById("mensagem").textContent = "Usuário Cadastrado com sucesso!!!";
+		}
+		
+		function post(url, dados) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 201) {
+							resolve(JSON.parse(xhr.responseText));
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+
+				xhr.send(JSON.stringify(dados));
+			});
+		}
   </script>
+    
 </body>
 </html>
