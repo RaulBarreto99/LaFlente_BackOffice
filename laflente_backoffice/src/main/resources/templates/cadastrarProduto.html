@@ -186,10 +186,20 @@
 										required="true" />
 								</div>
 								<div class="form-group" align="center">
-									<button type="button" onclick="cadastrarProduto()"
+									Pergunta<input type="text" class="form-control form-control-rounded" id="inputPergunta"
+									placeholder="Digite a pergunta">
+									Resposta<input type="text" class="form-control form-control-rounded" id="inputResposta"
+									placeholder="Digite a resposta">
+									<button type="button" onClick="adicionarPerguntaResposta()"
+									class="btn btn-light btn-round px-5">
+										<i></i> Adicionar
+									</button>
+									</div>
+								<div id="btnCadastrar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" onclick="cadastrarProduto()"
 										class="btn btn-light btn-round px-5">
 										<i class="icon-lock"></i> Cadastrar
-									</button>
+									</button>		
 								</div>
 							</form>
 						</div>
@@ -331,6 +341,25 @@
 
 			input.value = "";
 		}
+		
+		function adicionarPerguntaResposta() {
+			event.preventDefault();
+			
+		}
+		
+		
+		
+		function AdicionarPergunta(){
+			var cont = 0;
+			var card = document.getElementById("btnCadastrar");
+			card.insertAdjacentHTML("afterbegin",
+					`Pergunta<input type="text" class="form-control form-control-rounded" id="inputPergunta"+"${cont}"
+					placeholder="Digite a pergunta">
+					Resposta<input type="text" class="form-control form-control-rounded" id="inputResposta"+"${cont}"
+					placeholder="Digite a resposta">
+			`);
+			cont++;
+		}
 
 
 
@@ -362,6 +391,8 @@
 				
 			});
 		}
+		
+		
 		
 		function putImagem(url, produto){
 			return new Promise((resolve, reject) => {

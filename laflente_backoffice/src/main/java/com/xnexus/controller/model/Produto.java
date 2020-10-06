@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -39,6 +40,12 @@ public class Produto implements Serializable {
 	
 	private String status;
 
+	
+	@OneToMany(mappedBy="pergunta", cascade= CascadeType.ALL)
+	private List<PerguntaResposta> pergunta;
+	
+	@OneToMany(mappedBy="resposta", cascade= CascadeType.ALL)
+	private List<PerguntaResposta> resposta;
 	
 
 	public long getCodigo() {
