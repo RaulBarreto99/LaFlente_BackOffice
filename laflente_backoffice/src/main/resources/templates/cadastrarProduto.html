@@ -180,16 +180,30 @@
 										class="form-control form-control-rounded"
 										id="inputDescricaoDetalhada" placeholder="Descrição Detalhada">
 								</div>
+								<div class="form-group" align="center">
+									Pergunta<input type="text" class="form-control form-control-rounded" id="inputPergunta"
+									placeholder="Digite a pergunta">
+									Resposta<input type="text" class="form-control form-control-rounded" id="inputResposta"
+									placeholder="Digite a resposta">
+									<button style="margin-top: 15px" type="button" onClick="adicionarPerguntaResposta()"
+									class="btn btn-light btn-round px-5">
+										<i></i> Adicionar
+									</button>
+									</div>
+									<ul id="perguntas">
+									</ul>
+									<ul id="respostas">
+									</ul>
 								<div class="form-group py-2">
 									<label for="inputImagem">Selecionar uma imagem</label><br>
 									<input id="inputImagem" type="file" multiple="multiple"
 										required="true" />
 								</div>
-								<div class="form-group" align="center">
-									<button type="button" onclick="cadastrarProduto()"
+								<div id="btnCadastrar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" onclick="cadastrarProduto()"
 										class="btn btn-light btn-round px-5">
 										<i class="icon-lock"></i> Cadastrar
-									</button>
+									</button>		
 								</div>
 							</form>
 						</div>
@@ -302,6 +316,7 @@
 
 	<script>
 		var palavras = [];
+		var arrayPerguntasRespostas = [];
 
 		atualizarTabela();
 
@@ -332,7 +347,38 @@
 
 			input.value = "";
 		}
+		
+		function adicionarPerguntaResposta() {
+			event.preventDefault();
+			let inputPergunta = document.getElementById("inputPergunta");
+			let inputResposta = document.getElementById("inputResposta");
 
+			let listaPerguntas = document.getElementById("perguntas");
+			let listaResposta = document.getElementById("respostas");
+			
+			let perguntasRespostas = {
+				pergunta: inputPergunta.value,
+				resposta: inputResposta.value
+			}
+
+			arrayPerguntasRespostas.push(perguntasRespostas);
+
+			listaPerguntas.innerHTML = "";
+			listaResposta.innerHTML = "";
+
+			arrayPerguntasRespostas.forEach(pergunta => {
+				listaPerguntas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li>`);
+			});
+			
+			arrayPerguntasRespostas.forEach(resposta => {
+				listaResposta.insertAdjacentHTML('beforeend', `<li>${resposta.resposta}</li>`);
+			});
+
+			inputPergunta.value = "";
+			inputResposta.value = "";
+			
+			
+		}
 
 
 		function cadastrarProduto() {
@@ -344,14 +390,17 @@
 			let palavrasChaves = palavras;
 			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
 			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let perguntasRespostas = arrayPerguntasRespostas;
 
 			let produto = {
 				nome: inputNome.value,
 				preco: inputPreco.value,
 				quantidade: inputQuantidade.value,
-				palavraChave: palavras,
+				palavraChave: palavrasChaves,
 				descricaoCurta: inputDescricaoCurta.value,
-				descricaoDetalhada: inputDescricaoDetalhada.value
+				descricaoDetalhada: inputDescricaoDetalhada.value,
+				perguntaResposta: perguntasRespostas
+				
 			};
 
 			post("http://localhost:8080/produto", produto).then(produto => {
@@ -363,6 +412,8 @@
 				
 			});
 		}
+		
+		
 		
 		function putImagem(url, produto){
 			return new Promise((resolve, reject) => {
@@ -498,6 +549,10 @@
 			document.getElementById("palavrasChaves").innerHTML = "";
 			document.getElementById("inputPalavraChave").innerHTML = "";
 			document.getElementById("inputImagem").value = "";
+			document.getElementById("inputPergunta").innerHTML = "";
+			document.getElementById("inputResposta").innerHTML = "";
+			document.getElementById("perguntas").innerHTML = "";
+			document.getElementById("respostas").innerHTML = "";
 		}
 		
 		function desativar(codigo){
