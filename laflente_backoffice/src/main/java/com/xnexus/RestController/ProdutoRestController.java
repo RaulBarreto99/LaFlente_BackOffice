@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.xnexus.controller.model.Imagem;
 import com.xnexus.controller.model.Produto;
+import com.xnexus.controller.model.repository.ImagemRepository;
 import com.xnexus.controller.model.repository.ProdutoRepository;
 
 @RestController
@@ -37,6 +39,9 @@ public class ProdutoRestController {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private ImagemRepository imagemRepository;
 
 	@PostMapping
 	@Transactional
@@ -49,30 +54,28 @@ public class ProdutoRestController {
 		return ResponseEntity.created(uri).body(produto);
 	}
 
-	@PutMapping(value = "/imagem/{codigo}-{nome}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PutMapping(value = "/imagem/{codigo}-{nome}-{numeroImagens}-{extensao}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@Transactional
 	public void uploadImagem(@RequestParam MultipartFile imagem, @PathVariable Long codigo, @PathVariable String nome,
-			UriComponentsBuilder uriBuilder) {
+			@PathVariable int numeroImagens, @PathVariable String extensao, UriComponentsBuilder uriBuilder) {
 
 		try {
+			Optional<Produto> optional = produtoRepository.findById(codigo);
 
-				File ficheiro = new File("C:\\laflente\\");
-				ficheiro.mkdirs();
+			if (optional.isPresent()) {
 
-				byte[] bytes = imagem.getBytes();
-
-				Path path = Paths.get("C:\\laflente\\" + codigo + "_" + nome + "_" + imagem.getOriginalFilename());
-				Files.write(path, bytes);
+				String nomeArquivo = codigo + "_" + nome + "_img_" + numeroImagens;
+				Imagem imagemObj = new Imagem(nomeArquivo, imagem.getBytes(), codigo, extensao);
 				
-				Optional<Produto> optional = produtoRepository.findById(codigo);
-
-				if (optional.isPresent()) {
-					Produto produtos = optional.get();
-
-					produtos.setImagem("C:\\laflente\\" +codigo + "_" + nome + "_" + imagem.getOriginalFilename());
-				}
-
-		} catch (IOException e) {
+				
+				Produto produtos = optional.get();
+				
+				imagemRepository.save(imagemObj);
+				
+				produtos.addImagem(imagemObj);
+				
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -161,26 +164,6 @@ public class ProdutoRestController {
 		}
 
 		return ResponseEntity.notFound().build();
-	}
-	
-	@GetMapping("/imagem/{codigo}")
-	@ResponseBody
-	public byte[] retornaImagem(@PathVariable Long codigo) {
-		Optional<Produto> optional = produtoRepository.findById(codigo);
-
-		if (optional.isPresent()) {
-			Produto produtos = optional.get();
-
-			File file = new File(produtos.getImagem());
-			try {
-				return Files.readAllBytes(file.toPath());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return null;
-		
 	}
 
 }
