@@ -133,7 +133,7 @@
 						<div class="card-body">
 							<div class="card-title" align="center">Editar Produto</div>
 							<h3 id="mensagem" align="center"></h3>
-							 <div class="mt-5" align="center"><img id="imagem" th:src="@{/produto/imagem/{codigo}(codigo=${codigo})}" width="300" height="300"></div>
+							 <div class="mt-5" align="center" id="imagens"></div>
 							<hr>
 							<form>
 								<div class="form-group">
@@ -331,6 +331,7 @@
 			inputDescricaoCurta.value = produto.descricaoCurta;
 			inputDescricaoDetalhada.value = produto.descricaoDetalhada;
 			
+			renderizarImagens(produto.imagem);
 			preencherPalavrasChaves(produto);
 			
 			inputNome.disabled = true;
@@ -431,6 +432,15 @@
 			inputDescricaoDetalhada.disabled = false;
 			btnSalvar.disabled = false;
 			btnEditar.disabled = true;
+		}
+		
+		function renderizarImagens(imagens){
+			let imgDiv = document.getElementById("imagens");
+			
+			console.log(imagens)
+			imagens.forEach(imagem => {
+				imgDiv.insertAdjacentHTML('beforeend', `<img id="imagem" src="data:image/${imagem.extensao};base64,${imagem.imagem}" width="300" height="300">`);
+			})
 		}
 	</script>
 </body>

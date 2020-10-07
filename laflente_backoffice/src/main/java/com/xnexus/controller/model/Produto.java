@@ -36,8 +36,9 @@ public class Produto implements Serializable {
 
 	private double preco;
 
-	private String imagem;
-	
+	@OneToMany
+	private List<Imagem> imagens;
+
 	private String status;
 
 	
@@ -101,13 +102,6 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
-	public String getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
 	public String getStatus() {
 		return status;
 	}
@@ -122,6 +116,18 @@ public class Produto implements Serializable {
 
 	public void setPerguntaResposta(List<PerguntaResposta> perguntaResposta) {
 		this.perguntaResposta = perguntaResposta;
+	}
+	
+	public List<Imagem> getImagem() {
+		return imagens;
+	}
+
+	public void setImagem(List<Imagem> imagem) {
+		this.imagens = imagem;
+	}
+
+	public void addImagem(Imagem imagem){
+		imagens.add(imagem);
 	}
 	
 	
