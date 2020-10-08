@@ -190,9 +190,7 @@
 										<i></i> Adicionar
 									</button>
 									</div>
-									<ul id="perguntas">
-									</ul>
-									<ul id="respostas">
+									<ul id="perguntasRespostas">
 									</ul>
 								<div class="form-group py-2">
 									<label for="inputImagem">Selecionar uma imagem</label><br>
@@ -353,8 +351,7 @@
 			let inputPergunta = document.getElementById("inputPergunta");
 			let inputResposta = document.getElementById("inputResposta");
 
-			let listaPerguntas = document.getElementById("perguntas");
-			let listaResposta = document.getElementById("respostas");
+			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
 			
 			let perguntasRespostas = {
 				pergunta: inputPergunta.value,
@@ -363,15 +360,10 @@
 
 			arrayPerguntasRespostas.push(perguntasRespostas);
 
-			listaPerguntas.innerHTML = "";
-			listaResposta.innerHTML = "";
+			listaPerguntasRespostas.innerHTML = "";
 
 			arrayPerguntasRespostas.forEach(pergunta => {
-				listaPerguntas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li>`);
-			});
-			
-			arrayPerguntasRespostas.forEach(resposta => {
-				listaResposta.insertAdjacentHTML('beforeend', `<li>${resposta.resposta}</li>`);
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li><ul><li>${pergunta.resposta}</li></ul>`);
 			});
 
 			inputPergunta.value = "";

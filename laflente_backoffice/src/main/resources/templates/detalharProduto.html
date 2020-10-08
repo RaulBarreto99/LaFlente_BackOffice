@@ -167,10 +167,8 @@
 										id="inputDescricaoDetalhada" placeholder="Descrição Detalhada">
 								</div>
 								<div class="form-group">
-									<label for="inputPergunta">Perguntas</label>
-									<ul id="perguntas"></ul>
-									<label for="inputResposta">Respostas</label>
-									<ul id="respostas"></ul>
+									<label for="inputPergunta">Perguntas e Respostas</label>
+									<ul id="perguntasRespostas"></ul>
 								</div>
 								<div class="form-group" align="center">
 									<button type="button" onclick="atualizarProduto()"
@@ -369,16 +367,13 @@
 		
 		function preencherPerguntasRespostas(produto){
 
-			let listaPerguntas = document.getElementById("perguntas");
-			let listaRespostas = document.getElementById("respostas");
+			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
 
 
-			listaPerguntas.innerHTML = "";
-			listaRespostas.innerHTML = "";
+			listaPerguntasRespostas.innerHTML = "";
 
 			produto.perguntaResposta.forEach(perguntaResposta => {
-				listaPerguntas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.pergunta}</li>`);
-				listaRespostas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.resposta}</li>`);
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.pergunta}</li><ul><li>${perguntaResposta.resposta}</li></ul>`);
 			});
 
 		}
