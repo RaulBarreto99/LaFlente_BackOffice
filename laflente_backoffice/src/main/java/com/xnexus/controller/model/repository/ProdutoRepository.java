@@ -12,6 +12,4 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 	List<Produto> findByStatus(String status);
 	
-	 
-	
 }
