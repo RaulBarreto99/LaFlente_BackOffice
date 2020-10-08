@@ -166,6 +166,12 @@
 										Detalhada</label> <input type="text" class="form-control form-control-rounded"
 										id="inputDescricaoDetalhada" placeholder="Descrição Detalhada">
 								</div>
+								<div class="form-group">
+									<label for="inputPergunta">Perguntas</label>
+									<ul id="perguntas"></ul>
+									<label for="inputResposta">Respostas</label>
+									<ul id="respostas"></ul>
+								</div>
 								<div class="form-group" align="center">
 									<button type="button" onclick="atualizarProduto()"
 										class="btn btn-light btn-round px-5" id="salvar">
@@ -265,6 +271,7 @@
 
 	<script>
 		var palavras = [];
+		var arrayPerguntasRespostas = [];
 		
 		let url = window.location.href.split('/');
 		let codigo = url[4];
@@ -320,10 +327,13 @@
 			let inputPalavraChave = document.getElementById("inputPalavraChave");
 			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
 			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let inputPergunta = document.getElementById("inputPergunta");
+			let inputResposta = document.getElementById("inputResposta");
 			let btnAdicionar = document.getElementById("adicionar");
 			let btnSalvar = document.getElementById("salvar");
 			
 			palavras = produto.palavraChave;
+			arrayPerguntasRespostas = produto.perguntaResposta;
 			
 			inputNome.value = produto.nome;
 			inputPreco.value = produto.preco;
@@ -332,6 +342,7 @@
 			inputDescricaoDetalhada.value = produto.descricaoDetalhada;
 			
 			preencherPalavrasChaves(produto);
+			preencherPerguntasRespostas(produto);
 			
 			inputNome.disabled = true;
 			inputPreco.disabled = true;
@@ -355,6 +366,24 @@
 
 		}
 		
+		function preencherPerguntasRespostas(produto){
+
+			let listaPerguntas = document.getElementById("perguntas");
+			let listaRespostas = document.getElementById("respostas");
+
+
+			listaPerguntas.innerHTML = "";
+			listaRespostas.innerHTML = "";
+
+			produto.perguntaResposta.forEach(perguntaResposta => {
+				listaPerguntas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.pergunta}</li>`);
+				listaRespostas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.resposta}</li>`);
+			});
+
+		}
+		
+		
+		
 		function atualizarProduto(){
 			
 			let inputNome = document.getElementById("inputNome");
@@ -363,6 +392,9 @@
 			let palavrasChaves = palavras;
 			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
 			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let perguntas = arrayPerguntasRespostas.pergunta;
+			let respostas = arrayPerguntasRespostas.resposta;
+			
 
 			let produto = {
 				codigo: parseInt(codigo),
@@ -371,7 +403,8 @@
 				quantidade: inputQuantidade.value,
 				palavraChave: palavras,
 				descricaoCurta: inputDescricaoCurta.value,
-				descricaoDetalhada: inputDescricaoDetalhada.value
+				descricaoDetalhada: inputDescricaoDetalhada.value,
+				perguntaResposta: arrayPerguntasRespostas
 			};
 			
 			
@@ -388,6 +421,7 @@
 				inputDescricaoCurta.disabled = true;
 				inputDescricaoDetalhada.disabled = true;
 				btnSalvar.disabled = true;
+				btnEditar.disabled = false;
 			});
 		}
 		
