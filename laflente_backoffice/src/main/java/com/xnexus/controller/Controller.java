@@ -56,4 +56,10 @@ public class Controller {
 		ModelAndView mv = new ModelAndView("cadastrarUsuario.html");
 		return mv;
 	}
+	@RequestMapping("/preview/{codigo}")
+	@GetMapping
+	public ModelAndView preview(@PathVariable Long codigo) {
+		ModelAndView mv = new ModelAndView("preview.html");
+		return mv;
+	}
 }
