@@ -6,6 +6,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,8 +66,12 @@ public class ProdutoRestController {
 
 			if (optional.isPresent()) {
 
-				String nomeArquivo = codigo + "_" + nome + "_img_" + numeroImagens;
-				Imagem imagemObj = new Imagem(nomeArquivo, imagem.getBytes(), codigo, extensao);
+				String nomeArquivo = codigo + "_" + nome +"_"+ imagem.getName() + "_img_" + numeroImagens;
+				
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				
+				String md5 = md.digest(nomeArquivo.getBytes()).toString();
+				Imagem imagemObj = new Imagem(md5, imagem.getBytes(), codigo, extensao);
 				
 				
 				Produto produtos = optional.get();
@@ -85,6 +91,7 @@ public class ProdutoRestController {
 	@GetMapping
 	public ResponseEntity<List<Produto>> listarProdutos() {
 		List<Produto> produtos = produtoRepository.findAll();
+		
 
 		return ResponseEntity.ok(produtos);
 	}
@@ -113,13 +120,13 @@ public class ProdutoRestController {
 	}
 	
 	@GetMapping("/{codigo}")
-	@Transactional
 	public ResponseEntity<Produto> buscarProduto(@PathVariable Long codigo) {
 
 		Optional<Produto> optional = produtoRepository.findById(codigo);
 
 		if (optional.isPresent()) {
 			Produto produtos = optional.get();
+			produtos.setImagem(imagemRepository.findByCodigoProduto(codigo));
 
 			return ResponseEntity.ok(produtos);
 		}
@@ -161,6 +168,21 @@ public class ProdutoRestController {
 
 			produtos.setStatus(status);
 			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> removerImagem(@PathVariable Long id) {
+
+		Optional<Imagem> optional = imagemRepository.findById(id);
+
+		if (optional.isPresent()) {
+			imagemRepository.deleteById(id);
+
+			return ResponseEntity.ok().build();
 		}
 
 		return ResponseEntity.notFound().build();

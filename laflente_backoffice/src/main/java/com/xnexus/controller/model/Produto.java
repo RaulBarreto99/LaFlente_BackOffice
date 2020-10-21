@@ -9,8 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
 
 
 @Entity
@@ -32,6 +35,8 @@ public class Produto implements Serializable {
 	
 	private String descricaoCurta;
 
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
 	private String descricaoDetalhada;
 
 	private double preco;
