@@ -425,6 +425,9 @@
 			removerImagens().then(() => {
 				put("http://localhost:8080/produto/" + produto.codigo, produto).then(() => {
 					putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
+						get("http://localhost:8080/produto/" + codigo).then(produto => {
+							preencherCampos(produto);
+						})
 						document.getElementById("mensagem").textContent = "Produto editado com sucesso!!!";
 					});
 				});
