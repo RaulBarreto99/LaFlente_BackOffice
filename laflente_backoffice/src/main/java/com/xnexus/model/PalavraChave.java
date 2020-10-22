@@ -1,4 +1,4 @@
-package com.xnexus.controller.model;
+package com.xnexus.model;
 
 import java.io.Serializable;
 

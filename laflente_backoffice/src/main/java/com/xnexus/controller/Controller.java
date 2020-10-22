@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xnexus.controller.model.repository.ProdutoRepository;
+import com.xnexus.repository.ProdutoRepository;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/")
@@ -25,6 +25,13 @@ public class Controller {
 	@GetMapping
 	public ModelAndView produto() {
 		ModelAndView mv = new ModelAndView("cadastrarProduto.html");
+		return mv;
+	}
+	
+	@RequestMapping("/login")
+	@GetMapping
+	public ModelAndView login() {
+		ModelAndView mv = new ModelAndView("login.html");
 		return mv;
 	}
 	

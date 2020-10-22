@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.xnexus.controller.model.Imagem;
-import com.xnexus.controller.model.Produto;
-import com.xnexus.controller.model.repository.ImagemRepository;
-import com.xnexus.controller.model.repository.ProdutoRepository;
+import com.xnexus.model.Imagem;
+import com.xnexus.model.Produto;
+import com.xnexus.repository.ImagemRepository;
+import com.xnexus.repository.ProdutoRepository;
 
 @RestController
 @RequestMapping("/produto")

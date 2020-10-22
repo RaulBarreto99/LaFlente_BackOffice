@@ -1,10 +1,10 @@
-package com.xnexus.controller.model.repository;
+package com.xnexus.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.xnexus.controller.model.Imagem;
+import com.xnexus.model.Imagem;
 
 public interface ImagemRepository extends JpaRepository<Imagem, Long>{
 
