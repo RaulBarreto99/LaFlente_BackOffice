@@ -135,5 +135,7 @@ public class Produto implements Serializable {
 		imagens.add(imagem);
 	}
 	
-	
+	public void addPalavraChave(PalavraChave palavraChave){
+		this.palavraChave.add(palavraChave);
+	}
 }

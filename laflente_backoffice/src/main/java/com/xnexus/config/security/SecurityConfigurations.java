@@ -31,7 +31,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/login").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin();
+		.and().csrf().disable().formLogin();
 	}
 	
 	//Configurações de recursos estáticos (js, css, imagens, etc.)

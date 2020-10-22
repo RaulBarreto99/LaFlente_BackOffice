@@ -61,12 +61,9 @@
 					</a></li>
 
 
-				<li>
-      <a href="/estoque">
-        <i class="zmdi zmdi-face"></i> <span>Estoque</span>
-      </a>
-    </li>
-				<li><a href="/cadastrarUsuario" target="_blank"> <i class="zmdi zmdi-account-circle"></i>
+				<li><a href="/estoque"> <i class="zmdi zmdi-face"></i> <span>Estoque</span>
+					</a></li>
+				<li><a href="/cadastrarUsuario"> <i class="zmdi zmdi-account-circle"></i>
 						<span>Cadastrar
 							Usuário</span>
 					</a></li>
@@ -181,6 +178,14 @@
 								</div>
 								<div class="form-group ">
 									<label for="inputPalavraChave">Palavra Chave</label>
+									<div class="form-group form-inline">
+										<input type="text" class="form-control form-control-rounded"
+											id="inputPalavraChave" placeholder="Palavra Chave">
+										<button type="submit" class="btn btn-light btn-round ml-3"
+											onclick="adicionarPalavraChave()">
+											<i class=""> Adicionar</i>
+										</button>
+									</div>
 									<ul id="palavrasChaves">
 									</ul>
 								</div>
@@ -194,6 +199,16 @@
 										 </textarea>
 								<div class="form-group">
 									<label for="inputPergunta">Perguntas e Respostas</label>
+									<div class="form-group">
+									<label for="inputPergunta">Pergunta</label><input type="text" class="form-control form-control-rounded" id="inputPergunta"
+									placeholder="Digite a pergunta">
+									<label for="inputResposta">Resposta</label><input type="text" class="form-control form-control-rounded" id="inputResposta"
+									placeholder="Digite a resposta">
+									<button style="margin-top: 15px" type="button" onClick="adicionarPerguntaResposta()"
+									class="btn btn-light btn-round px-5">
+										<i></i> Adicionar
+									</button>
+									</div>
 									<ul id="perguntasRespostas"></ul>
 								</div>
 								
@@ -296,6 +311,7 @@
 		var arrayPerguntasRespostas = [];
 		var arrayImagens = [];
 		var imagensRemovidas = [];
+		var palavrasRemovidas = [];
 
 		let url = window.location.href.split('/');
 		let codigo = url[4];
@@ -314,6 +330,51 @@
 		} else {
 
 			document.querySelector("body").className = "bg-theme bg-theme1";
+		}
+		
+		function adicionarPalavraChave() {
+			event.preventDefault();
+			let input = document.getElementById("inputPalavraChave");
+
+			let palavra = { palavraChave: input.value };
+
+			let listaPalavras = document.getElementById("palavrasChaves");
+
+			palavras.push(palavra);
+
+			listaPalavras.innerHTML = "";
+
+			palavras.forEach(palavraChave => {
+				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li><ul><button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button></ul>`);
+			});
+
+			input.value = "";
+		}
+		
+		function adicionarPerguntaResposta() {
+			event.preventDefault();
+			let inputPergunta = document.getElementById("inputPergunta");
+			let inputResposta = document.getElementById("inputResposta");
+
+			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
+			
+			let perguntasRespostas = {
+				pergunta: inputPergunta.value,
+				resposta: inputResposta.value
+			}
+
+			arrayPerguntasRespostas.push(perguntasRespostas);
+
+			listaPerguntasRespostas.innerHTML = "";
+
+			arrayPerguntasRespostas.forEach(pergunta => {
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li><ul><li>${pergunta.resposta}</li></ul>`);
+			});
+
+			inputPergunta.value = "";
+			inputResposta.value = "";
+			
+			
 		}
 
 
@@ -366,22 +427,26 @@
 
 			renderizarImagens(produto.imagem);
 			listarImagens(produto.imagem);
-			preencherPalavrasChaves(produto);
+			preencherPalavrasChaves(produto.palavraChave);
 			preencherPerguntasRespostas(produto);
 			
 			arrayImagens = produto.imagem;
+			palavras = produto.palavraChave;
 
 		}
 
-		function preencherPalavrasChaves(produto) {
+		function preencherPalavrasChaves(palavrasChaves) {
 
 			let listaPalavras = document.getElementById("palavrasChaves");
 
 
 			listaPalavras.innerHTML = "";
 
-			produto.palavraChave.forEach(palavraChave => {
-				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>`);
+			palavrasChaves.forEach(palavraChave => {
+				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>
+				<ul>
+				<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button>
+				</ul>`);
 			});
 
 		}
@@ -418,7 +483,7 @@
 				nome: inputNome.value,
 				preco: inputPreco.value,
 				quantidade: inputQuantidade.value,
-				palavraChave: palavras,
+				//palavraChave: palavras,
 				descricaoCurta: inputDescricaoCurta.value,
 				descricaoDetalhada: inputDescricaoDetalhada.value,
 				perguntaResposta: arrayPerguntasRespostas
@@ -426,6 +491,8 @@
 
 
 			removerImagens().then(() => {
+				removerPalavraChave().then(() => {
+					addPalavraBanco().then(() => {
 				put("http://localhost:8080/produto/" + produto.codigo, produto).then(() => {
 					putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
 						get("http://localhost:8080/produto/" + codigo).then(produto => {
@@ -433,6 +500,8 @@
 						})
 						document.getElementById("mensagem").textContent = "Produto editado com sucesso!!!";
 					});
+				});
+				});
 				});
 			});
 			
@@ -448,6 +517,55 @@
 				}
 				
 				Promise.all(promises).then(() => resolve());
+			});
+		}
+		
+		function removerPalavraChave(){
+			return new Promise((resolve, reject) => {
+				let promises = [];
+				for(let i = 0; i < palavrasRemovidas.length; i++){
+					promises.push(new Promise((resolve, reject) => {
+						remove(`http://localhost:8080/produto/palavrasChave/${palavrasRemovidas[i]}`).then(() => resolve())
+					}));
+				}
+				
+				Promise.all(promises).then(() => resolve());
+			});
+		}
+		
+		function addPalavraBanco(){
+			return new Promise((resolve, reject) => {
+				let promises = [];
+				for(let i = 0; i < palavras.length; i++){
+					promises.push(new Promise((resolve, reject) => {
+						console.log(palavras[i])
+						post(`http://localhost:8080/produto/palavrasChave/${codigo}`,palavras[i]).then(() => resolve())
+					}));
+				}
+				
+				Promise.all(promises).then(() => resolve());
+			});
+		}
+		
+		function post(url, dados) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 201) {
+							resolve();
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+				
+				xhr.send(JSON.stringify(dados));
 			});
 		}
 
@@ -547,6 +665,21 @@
 					imagensRemovidas.push(id);
 					listarImagens(arrayImagens);
 					renderizarImagens(arrayImagens);
+					return;
+				}
+			}
+			
+			 
+		}
+		
+		function removerPalavraChaveLista(id){
+			event.preventDefault();
+			for(let i = 0; i < palavras.length; i++){
+				if(palavras[i].id == id){
+					let removido = palavras.splice(i, 1);
+
+					palavrasRemovidas.push(id);
+					preencherPalavrasChaves(palavras);
 					return;
 				}
 			}
