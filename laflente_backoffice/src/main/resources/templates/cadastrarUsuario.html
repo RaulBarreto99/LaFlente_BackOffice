@@ -144,13 +144,15 @@
 							<div class="card-title" align="center">Cadastrar Usuário</div>
 							<hr>
 							<h3 id="mensagem" align="center"></h3>
+							<form>
+							<input id="codigo" hidden="true"/>
 								<div class="form-group">
 									<label for="inputNome">Nome</label> <input type="text"
 										class="form-control form-control-rounded" id="inputNome"
 										placeholder="Digite seu nome">
 								</div>
 								<div class="form-group">
-									<label for="inputEmail">Email</label> <input type="text"
+									<label for="inputEmail">Email</label> <input type="email"
 										class="form-control form-control-rounded" id="inputEmail"
 										placeholder="Digite seu email">
 								</div>
@@ -164,16 +166,24 @@
 				<div class="position-relative has-icon-right">
       			 	<label for="labelTipo">Tipo de acesso</label>
       				<select id="inputTipoAcesso" class="form-control">
-        				<option selected>Administrador</option>
+      				<option selected>Selecione um tipo de acesso</option>
+        				<option>Administrador</option>
         				<option>Estoquista</option>
       				</select>
     			</div>
     				
 								
 								<div id="btnCadastrar" class="form-group" align="center">
-									<button style="margin-top:15px" type="button" onclick="cadastrarUsuario()"
+									<button style="margin-top:15px" type="button" id="btnCadastrar" onclick="cadastrarUsuario()"
 										class="btn btn-light btn-round px-5">
 										<i class="icon-lock"></i> Cadastrar
+									</button>		
+								</div>
+								
+								<div id="btnSalvar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" id="btnAlterar" onclick="alterarUsuario()"
+										class="btn btn-light btn-round px-5" disabled="true">
+										<i class="icon-lock"></i> Salvar Alterações
 									</button>		
 								</div>
 							</form>
@@ -196,7 +206,7 @@
 										<th scope="col">Tipo</th>
 										<th scope="col">Status</th>
 										<th scope="col">Ativar/Inativar</th>
-										
+										<th scope="col">Editar</th>
 									</tr>
 								</thead>
 								<tbody id="tabelaBody">
@@ -297,28 +307,103 @@
   	}
 		
 	function cadastrarUsuario() {
-			event.preventDefault();
+			 event.preventDefault();
 
 			let inputNome = document.getElementById("inputNome");
 			let inputEmail = document.getElementById("inputEmail");
 			let inputSenha = document.getElementById("inputSenha");
 			let inputTipoAcesso = document.getElementById("inputTipoAcesso");
 
+			let perfis = [];
+			
+			if(inputTipoAcesso.value == "Administrador"){
+				perfis.push({id: 1})
+			}else{
+				perfis.push({id: 2})
+			}
 
 			let usuario = {
 				nome: inputNome.value,
 				email: inputEmail.value,
 				senha: inputSenha.value,
-		  		tipoAcesso: inputTipoAcesso.value,
+		  		perfis: perfis,
 			
 			};
+			
+			if(!validacaoEmail(inputEmail)){
+				
+				document.getElementById("mensagem").textContent = "E-mail inválido!!!";
+				return;
+			}else if(inputNome.value.length < 5){
+				document.getElementById("mensagem").textContent = "Nome tem que ter no minimo 5 caracteres!!!";
+				return;
+			}
 
-			post("http://localhost:8080/usuario", usuario).then(usuario => {usuario.codigo +"-"+usuario.nome +"-"+ usuario.email +"-"+ usuario.senha+
-				"-"+usuario.tipoAcesso
-			atualizarTabela();
-			document.getElementById("mensagem").textContent = "Usuário Cadastrado com sucesso!!!";
+			post("http://localhost:8080/usuario", usuario).then(usuario => {
+				
+				atualizarTabela();
+				limparCampos();
+				document.getElementById("mensagem").textContent = "Usuário Cadastrado com sucesso!!!";
+			
 			});
 		}
+	
+	function alterarUsuario() {
+		 event.preventDefault();
+		 let inputCodigo = document.getElementById("codigo");
+		let inputNome = document.getElementById("inputNome");
+		let inputSenha = document.getElementById("inputSenha");
+		let inputTipoAcesso = document.getElementById("inputTipoAcesso");
+
+		let perfis = [];
+		
+		if(inputTipoAcesso.value == "Administrador"){
+			perfis.push({id: 1})
+		}else{
+			perfis.push({id: 2})
+		}
+
+		let usuario = {
+			nome: inputNome.value,
+			senha: inputSenha.value,
+	  		perfis: perfis,
+		
+		};
+		
+		console.log(inputSenha.value)
+		
+		if(!validacaoEmail(inputEmail)){
+			
+			document.getElementById("mensagem").textContent = "E-mail inválido!!!";
+			return;
+		}else if(inputNome.value.length < 5){
+			document.getElementById("mensagem").textContent = "Nome tem que ter no minimo 5 caracteres!!!";
+			return;
+		}else if(inputSenha.value == ""){
+			document.getElementById("mensagem").textContent = "Favor Preencher a senha!!!";
+			return;
+		}
+
+		put(`http://localhost:8080/usuario/${inputCodigo.value}`, usuario).then(usuario => {
+			
+			atualizarTabela();
+			limparCampos();
+			document.getElementById("mensagem").textContent = "Usuário Alterado com sucesso!!!";
+		
+		});
+	}
+	
+	function limparCampos(){
+		document.getElementById("inputNome").value = "";
+		document.getElementById("inputEmail").value = "";
+		document.getElementById("inputSenha").value = "";
+		document.getElementById("inputTipoAcesso").value = "Selecione um tipo de acesso";
+		
+		document.getElementById("btnCadastrar").disabled = false;
+		document.getElementById("btnAlterar").disabled = true;
+		document.getElementById("inputEmail").disabled = false;;
+	}
+	
 	function post(url, dados) {
 		return new Promise((resolve, reject) => {
 
@@ -362,6 +447,29 @@
 			xhr.send(status);
 		});
 	}
+	
+	function put(url, dados) {
+		return new Promise((resolve, reject) => {
+
+			let xhr = new XMLHttpRequest();
+			xhr.open("PUT", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = () => {
+
+				if (xhr.readyState == 4) {
+
+					if (xhr.status == 200) {
+						resolve();
+					} else {
+						reject(xhr.responseText);
+					}
+				}
+			};
+
+			xhr.send(JSON.stringify(dados));
+		});
+	}
+	
 	function get(url) {
 		return new Promise((resolve, reject) => {
 
@@ -387,6 +495,7 @@
 			xhr.send();
 		});
 	}
+	
 	function atualizarTabela() {
 		get("http://localhost:8080/usuario").then(usuarios => {
 			let tabela = document.getElementById("tabelaBody");
@@ -397,11 +506,15 @@
 							<th scope="row">${usuario.codigo}</th>
 							<td>${usuario.nome}</td>
 							<td>${usuario.email}</td>
-							<td>${usuario.tipoAcesso}</td>
+							<td>${usuario.perfis[0].nome}</td>
 							<td>${usuario.status}</td>
 							<td><button type="button"
 									class="btn btn-light btn-round px-2" onclick="desativar(${usuario.codigo})" id="desativar${usuario.codigo}">
 									Desativar
+								</button></td>
+								<td><button type="button"
+									class="btn btn-light btn-round px-2" onclick="preencherCampos(${usuario.codigo})" id="preencher${usuario.codigo}">
+									Editar
 								</button></td>
 							</tr>`);
 				}else{
@@ -409,11 +522,15 @@
 							<th scope="row">${usuario.codigo}</th>
 							<td>${usuario.nome}</td>
 							<td>${usuario.email}</td>
-							<td>${usuario.tipoAcesso}</td>
+							<td>${usuario.perfis[0].nome}</td>
 							<td>${usuario.status}</td>
 							<td><button type="button"
 								class="btn btn-light btn-round px-2" onclick="ativar(${usuario.codigo})" id="ativar${usuario.codigo}">
 								Ativar
+							</button></td>
+							<td><button type="button"
+								class="btn btn-light btn-round px-2" onclick="preencherCampos(${usuario.codigo})" id="preencher${usuario.codigo}">
+								Editar
 							</button></td>
 							</tr>`);
 				}
@@ -430,12 +547,46 @@
 		});
 	}
 	
+	function preencherCampos(codigo){
+		get("http://localhost:8080/usuario/"+codigo).then(usuario => {
+			document.getElementById("codigo").value = usuario.codigo;
+			document.getElementById("inputNome").value = usuario.nome;
+			document.getElementById("inputEmail").value = usuario.email;
+			document.getElementById("inputSenha").value = "";
+			document.getElementById("inputTipoAcesso").value = usuario.perfis[0].nome;
+			
+			document.getElementById("btnCadastrar").disabled = true;
+			document.getElementById("inputEmail").disabled = true;
+			document.getElementById("btnAlterar").disabled = false;
+		})
+	}
+	
 	function ativar(codigo){
 		patch("http://localhost:8080/usuario/"+codigo, "ATIVO").then(() => {
 			atualizarTabela();
 			document.getElementById("mensagem").textContent = "Usuário Ativado com Sucesso!!!";
 		});
 	}
+	
+	function validacaoEmail(field) {
+			usuario = field.value.substring(0, field.value.indexOf("@"));
+			dominio = field.value.substring(field.value.indexOf("@")+ 1, field.value.length);
+			if ((usuario.length >=1) &&
+			    (dominio.length >=3) &&
+			    (usuario.search("@")==-1) &&
+			    (dominio.search("@")==-1) &&
+			    (usuario.search(" ")==-1) &&
+			    (dominio.search(" ")==-1) &&
+			    (dominio.search(".")!=-1) &&
+			    (dominio.indexOf(".") >=1)&&
+			    (dominio.lastIndexOf(".") < dominio.length - 1)) {
+			return true;
+			}
+			else{
+				return false;
+			}
+		}
+	
 		</script>
 </body>
 

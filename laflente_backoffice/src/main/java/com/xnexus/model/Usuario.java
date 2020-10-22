@@ -10,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
 
+import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 public class Usuario implements UserDetails{
@@ -33,7 +36,7 @@ public class Usuario implements UserDetails{
 	
 	private String status;
 	
-	
+	@Email
 	private String email;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -110,7 +113,12 @@ public class Usuario implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		if(this.status.equals("ATIVO")) {
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 	@Override
@@ -120,7 +128,11 @@ public class Usuario implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		if(this.status.equals("ATIVO")) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 }
