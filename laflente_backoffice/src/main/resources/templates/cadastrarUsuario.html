@@ -438,7 +438,11 @@
 
 					if (xhr.status == 200) {
 						resolve(JSON.parse(xhr.responseText));
-					} else {
+						
+					} else if(xhr.status == 400){
+						resolve(400);
+						
+					}else{
 						reject(xhr.responseText);
 					}
 				}
@@ -541,9 +545,15 @@
 	}
 
 	function desativar(codigo){
-		patch("http://localhost:8080/usuario/"+codigo, "INATIVO").then(() => {
-			atualizarTabela();
-			document.getElementById("mensagem").textContent = "Usuário Desativado com Sucesso!!!";
+		patch("http://localhost:8080/usuario/"+codigo, "INATIVO").then(status => {
+			if(status == 400){
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Você não pode inativar seu proprio perfil!!!";
+			}else{
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Usuário Desativado com Sucesso!!!";
+			}
+			
 		});
 	}
 	
@@ -563,8 +573,14 @@
 	
 	function ativar(codigo){
 		patch("http://localhost:8080/usuario/"+codigo, "ATIVO").then(() => {
-			atualizarTabela();
-			document.getElementById("mensagem").textContent = "Usuário Ativado com Sucesso!!!";
+			if(status == 400){
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Você não pode inativar ou ativar seu proprio perfil!!!";
+			}else{
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Usuário Ativado com Sucesso!!!";
+			}
+			
 		});
 	}
 	
