@@ -186,8 +186,10 @@
 											<i class=""> Adicionar</i>
 										</button>
 									</div>
-									<ul id="palavrasChaves">
-									</ul>
+									<table>
+									<tbody id="palavrasChaves">
+									</tbody>
+									</table>
 								</div>
 								<div class="form-group">
 									<label for="inputDescricaoCurta">Descrição Curta</label> <input type="text"
@@ -198,7 +200,6 @@
 								<textarea class="form-control" id="inputDescricaoDetalhada" rows="5">
 										 </textarea>
 								<div class="form-group">
-									<label for="inputPergunta">Perguntas e Respostas</label>
 									<div class="form-group">
 									<label for="inputPergunta">Pergunta</label><input type="text" class="form-control form-control-rounded" id="inputPergunta"
 									placeholder="Digite a pergunta">
@@ -345,7 +346,17 @@
 			listaPalavras.innerHTML = "";
 
 			palavras.forEach(palavraChave => {
-				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li><ul><button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button></ul>`);
+				listaPalavras.insertAdjacentHTML('beforeend', `
+						<tr>
+						<td>
+						<li>${palavraChave.palavraChave}</li>
+						</td>
+						<td>
+						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button>
+						</td>
+						<br>
+					</tr>`);
+				
 			});
 
 			input.value = "";
@@ -443,10 +454,18 @@
 			listaPalavras.innerHTML = "";
 
 			palavrasChaves.forEach(palavraChave => {
-				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>
-				<ul>
-				<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button>
-				</ul>`);
+				listaPalavras.insertAdjacentHTML('beforeend', `
+						
+						<tr>
+						<td>
+						<li>${palavraChave.palavraChave}</li>
+						</td>
+						<td>
+						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button>
+						</td>
+						<br>
+					</tr>
+						`);
 			});
 
 		}
