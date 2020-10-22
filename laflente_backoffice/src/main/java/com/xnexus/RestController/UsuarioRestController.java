@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.xnexus.model.Produto;
+
 import com.xnexus.model.Usuario;
 import com.xnexus.model.UsuarioDto;
 import com.xnexus.repository.UsuarioRepository;
