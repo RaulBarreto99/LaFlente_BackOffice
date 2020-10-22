@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.xnexus.controller.model.Produto;
-import com.xnexus.controller.model.Usuario;
-import com.xnexus.controller.model.repository.UsuarioRepository;
+import com.xnexus.model.Produto;
+import com.xnexus.model.Usuario;
+import com.xnexus.repository.UsuarioRepository;
 
 
 @RestController

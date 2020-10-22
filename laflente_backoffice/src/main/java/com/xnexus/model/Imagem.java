@@ -1,4 +1,4 @@
-package com.xnexus.controller.model;
+package com.xnexus.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

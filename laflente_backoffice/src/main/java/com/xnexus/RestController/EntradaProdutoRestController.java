@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.xnexus.controller.model.EntradaProduto;
-import com.xnexus.controller.model.Produto;
-import com.xnexus.controller.model.repository.EntradaProdutoRepository;
-import com.xnexus.controller.model.repository.ProdutoRepository;
+import com.xnexus.model.EntradaProduto;
+import com.xnexus.model.Produto;
+import com.xnexus.repository.EntradaProdutoRepository;
+import com.xnexus.repository.ProdutoRepository;
 
 @RestController
 @RequestMapping("/cadastrarEntrada")
