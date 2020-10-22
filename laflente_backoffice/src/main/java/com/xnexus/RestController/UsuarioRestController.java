@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +36,11 @@ public class UsuarioRestController {
 	public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder) {
 		
 		usuario.setStatus("ATIVO");
-		usuarioRepository.save(usuario);
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+        usuario.setSenha(bcrypt.encode(usuario.getPassword()));
+        usuarioRepository.save(usuario);
 		
-
-		URI uri = uriBuilder.path("/usuario/{codigo}").buildAndExpand(usuario.getCodigo()).toUri();
+        URI uri = uriBuilder.path("/usuario/{codigo}").buildAndExpand(usuario.getCodigo()).toUri();
 
 		return ResponseEntity.created(uri).body(usuario);
 	}
