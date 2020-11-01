@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>LaFlente</title>
+<!-- loader-->
+<link href="assets/css/pace.min.css" rel="stylesheet" />
+<script src="assets/js/pace.min.js"></script>
+<!--favicon-->
+<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+<!-- simplebar CSS-->
+<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+<!-- Bootstrap core CSS-->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<!-- animate CSS-->
+<link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+<!-- Icons CSS-->
+<link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+<!-- Sidebar CSS-->
+<link href="assets/css/sidebar-menu.css" rel="stylesheet" />
+<!-- Custom Style-->
+<link href="assets/css/app-style.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="bg-theme bg-theme1">
+
+	<!-- start loader -->
+	<div id="pageloader-overlay" class="visible incoming">
+		<div class="loader-wrapper-outer">
+			<div class="loader-wrapper-inner">
+				<div class="loader"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end loader -->
+
+	<!-- Start wrapper-->
+	<div id="wrapper">
+
+		<!--Start sidebar-wrapper-->
+		<div id="sidebar-wrapper" data-simplebar=""
+			data-simplebar-auto-hide="true">
+			<div class="brand-logo">
+
+				<a href="/"> <h1>LaFlente</h1>
+				</a>
+			</div>
+			<ul class="sidebar-menu do-nicescrol">
+				<li class="sidebar-header">Menus</li>
+				<li><a href="/"> <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+				</a></li>
+
+
+				<li><a href="/cadastrarProduto"> <i class="zmdi zmdi-invert-colors"></i> <span>CadastrarProduto</span>
+				</a></li>
+
+
+				<li>
+      <a href="/estoque">
+        <i class="zmdi zmdi-face"></i> <span>Estoque</span>
+      </a>
+    </li>
+				<li>
+        <a href="/cadastrarUsuario">
+          <i class="zmdi zmdi-account-circle"></i> <span>Cadastrar Usuário</span>
+        </a>
+      </li>
+
+
+
+
+				<li>
+        <a href="/logout">
+          <i class="zmdi zmdi-lock"></i> <span>Sair</span>
+        </a>
+      </li>
+		</div>
+		<!--End sidebar-wrapper-->
+
+
+		<!--Start topbar header-->
+		<header class="topbar-nav">
+			<nav class="navbar navbar-expand fixed-top">
+				<ul class="navbar-nav mr-auto align-items-center">
+					<li class="nav-item"><a class="nav-link toggle-menu"
+						href="javascript:void();"> <i class="icon-menu menu-icon"></i>
+					</a></li>
+					<li class="nav-item"></li>
+				</ul>
+
+				<a class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+					data-toggle="dropdown" href="#"> <span class="user-profile"><img
+						src="https://via.placeholder.com/110x110" class="img-circle"
+						alt="user avatar"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li class="dropdown-item user-details"><a
+						href="javaScript:void();">
+							<div class="media">
+								<div class="avatar">
+									<img class="align-self-start mr-3"
+										src="https://via.placeholder.com/110x110" alt="user avatar">
+								</div>
+								<div class="media-body">
+									<h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
+									<p class="user-subtitle">mccoy@example.com</p>
+								</div>
+							</div>
+					</a></li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-envelope mr-2"></i>
+						Inbox</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-wallet mr-2"></i>
+						Account</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-settings mr-2"></i>
+						Setting</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-power mr-2"></i>
+						Logout</li>
+				</ul>
+				</li>
+				</ul>
+			</nav>
+		</header>
+		<!--End topbar header-->
+		<div class="clearfix"></div>
+
+		<div class="content-wrapper">
+			<div class="container-fluid">
+
+
+
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title" align="center">Cadastrar Produtos</div>
+							<hr>
+							<h3 id="mensagem" align="center"></h3>
+								<div class="form-group">
+									<label for="inputNome">Nome</label> <input type="text"
+										class="form-control form-control-rounded" id="inputNome"
+										placeholder="Digite o nome do produto">
+								</div>
+								<div class="form-group">
+									<label for="inputPreco">Preço</label> <input type="text"
+										class="form-control form-control-rounded" id="inputPreco"
+										placeholder="Digite o preço do produto">
+								</div>
+								<div class="form-group">
+									<label for="inputQuantidade">Quantidade</label> <input
+										type="text" class="form-control form-control-rounded"
+										id="inputQuantidade"
+										placeholder="Digite a quantidade do produto">
+								</div>
+								<div class="form-group ">
+									<label for="inputPalavraChave">Palavras Chaves</label>
+									<div class="form-group form-inline">
+										<input type="text" class="form-control form-control-rounded"
+											id="inputPalavraChave" placeholder="Palavra Chave">
+										<button type="submit" class="btn btn-light btn-round ml-3"
+											onclick="adicionarPalavraChave()">
+											<i class=""> Adicionar</i>
+										</button>
+									</div>
+									<ul id="palavrasChaves">
+									</ul>
+								</div>
+								<div class="form-group">
+									<label for="inputDescricaoCurta">Descrição Curta</label> <input
+										type="text" class="form-control form-control-rounded"
+										id="inputDescricaoCurta" placeholder="Descrição Curta">
+								</div>
+								<div class="form-group">
+									<label for="inputDescricaoDetalhada">Descrição
+										Detalhada</label> 
+										 <textarea class="form-control" id="inputDescricaoDetalhada" rows="5"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="inputPergunta">Pergunta</label><input type="text" class="form-control form-control-rounded" id="inputPergunta"
+									placeholder="Digite a pergunta">
+									<label for="inputResposta">Resposta</label><input type="text" class="form-control form-control-rounded" id="inputResposta"
+									placeholder="Digite a resposta">
+									<button style="margin-top: 15px" type="button" onClick="adicionarPerguntaResposta()"
+									class="btn btn-light btn-round px-5">
+										<i></i> Adicionar
+									</button>
+									</div>
+									<ul id="perguntasRespostas">
+									</ul>
+								<div class="form-group py-2">
+									<label for="inputImagem">Selecionar uma imagem</label><br>
+									<input id="inputImagem" type="file" multiple="multiple"
+										required="true" />
+								</div>
+								<div id="btnCadastrar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" onclick="cadastrarProduto()"
+										class="btn btn-light btn-round px-5">
+										<i class="icon-lock"></i> Cadastrar
+									</button>		
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Row-->
+			<div class="col-lg-10">
+				<div class="card">
+					<div class="card-body" align="cent">
+						<h5 class="card-title">Produtos cadastrados</h5>
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">Código</th>
+										<th scope="col">Nome</th>
+										<th scope="col">Preço</th>
+										<th scope="col">Quantidade</th>
+										<th scope="col">Status</th>
+										<th scope="col">Ativar/Inativar</th>
+										<th scope="col">Detalhar</th>
+										<th scope="col">Preview</th>
+									</tr>
+								</thead>
+								<tbody id="tabelaBody">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--start overlay-->
+		<div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+
+	</div>
+	<!-- End container-fluid-->
+
+	</div>
+	<!--End content-wrapper-->
+	<!--Start Back To Top Button-->
+	<a href="javaScript:void();" class="back-to-top"><i
+		class="fa fa-angle-double-up"></i> </a>
+	<!--End Back To Top Button-->
+
+	<!--Start footer-->
+
+	<!--End footer-->
+
+
+	<!--start color switcher-->
+	<div class="right-sidebar">
+		<div class="switcher-icon">
+			<i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+		</div>
+		<div class="right-sidebar-content">
+
+			<p class="mb-0">Gaussion Texture</p>
+			<hr>
+
+			<ul class="switcher">
+				<li id="theme1"></li>
+				<li id="theme2"></li>
+				<li id="theme3"></li>
+				<li id="theme4"></li>
+				<li id="theme5"></li>
+				<li id="theme6"></li>
+			</ul>
+
+			<p class="mb-0">Gradient Background</p>
+			<hr>
+
+			<ul class="switcher">
+				<li id="theme7"></li>
+				<li id="theme8"></li>
+				<li id="theme9"></li>
+				<li id="theme10"></li>
+				<li id="theme11"></li>
+				<li id="theme12"></li>
+				<li id="theme13"></li>
+				<li id="theme14"></li>
+				<li id="theme15"></li>
+			</ul>
+
+		</div>
+	</div>
+	<!--end color switcher-->
+
+	</div>
+	<!--End wrapper-->
+
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+
+	<!-- simplebar js -->
+	<script src="assets/plugins/simplebar/js/simplebar.js"></script>
+	<!-- sidebar-menu js -->
+	<script src="assets/js/sidebar-menu.js"></script>
+
+	<!-- Custom scripts -->
+	<script src="assets/js/app-script.js"></script>
+
+	<script>
+		var palavras = [];
+		var arrayPerguntasRespostas = [];
+
+		atualizarTabela();
+
+		let tema = localStorage.getItem("tema");
+
+		if (tema) {
+			document.querySelector("body").className = tema;
+		} else {
+
+			document.querySelector("body").className = "bg-theme bg-theme1";
+		}
+
+		function adicionarPalavraChave() {
+			event.preventDefault();
+			let input = document.getElementById("inputPalavraChave");
+
+			let palavra = { palavraChave: input.value };
+
+			let listaPalavras = document.getElementById("palavrasChaves");
+
+			palavras.push(palavra);
+
+			listaPalavras.innerHTML = "";
+
+			palavras.forEach(palavraChave => {
+				listaPalavras.insertAdjacentHTML('beforeend', `<li>${palavraChave.palavraChave}</li>`);
+			});
+
+			input.value = "";
+		}
+		
+		function adicionarPerguntaResposta() {
+			event.preventDefault();
+			let inputPergunta = document.getElementById("inputPergunta");
+			let inputResposta = document.getElementById("inputResposta");
+
+			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
+			
+			let perguntasRespostas = {
+				pergunta: inputPergunta.value,
+				resposta: inputResposta.value
+			}
+
+			arrayPerguntasRespostas.push(perguntasRespostas);
+
+			listaPerguntasRespostas.innerHTML = "";
+
+			arrayPerguntasRespostas.forEach(pergunta => {
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li><ul><li>${pergunta.resposta}</li></ul>`);
+			});
+
+			inputPergunta.value = "";
+			inputResposta.value = "";
+			
+			
+		}
+
+
+		function cadastrarProduto() {
+			event.preventDefault();
+
+			let inputNome = document.getElementById("inputNome");
+			let inputPreco = document.getElementById("inputPreco");
+			let inputQuantidade = document.getElementById("inputQuantidade");
+			let palavrasChaves = palavras;
+			let inputDescricaoCurta = document.getElementById("inputDescricaoCurta");
+			let inputDescricaoDetalhada = document.getElementById("inputDescricaoDetalhada");
+			let perguntasRespostas = arrayPerguntasRespostas;
+
+			let produto = {
+				nome: inputNome.value,
+				preco: inputPreco.value,
+				quantidade: inputQuantidade.value,
+				palavraChave: palavrasChaves,
+				descricaoCurta: inputDescricaoCurta.value,
+				descricaoDetalhada: inputDescricaoDetalhada.value,
+				perguntaResposta: perguntasRespostas
+				
+			};
+
+			post("http://localhost:8080/produto", produto).then(produto => {
+				putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
+					atualizarTabela();
+					limparCampos();
+					document.getElementById("mensagem").textContent = "Produto Cadastrado com Sucesso!!!";
+				});
+				
+			});
+		}
+		
+		
+		
+		function putImagem(url, produto){
+			return new Promise((resolve, reject) => {
+				let inputImagem = document.getElementById("inputImagem");
+
+				let files = inputImagem.files;
+				
+				let promises = [];
+				for(let i = 0; i < files.length; i++){
+					promises.push(new Promise((resolve, reject) => {
+						let formData = new FormData();
+						formData.append("imagem", files[i]);
+						
+						let fileName = files[i].name.split(".");
+						
+						let extensao = fileName[fileName.length - 1];
+						let xhr = new XMLHttpRequest();
+						xhr.open("PUT", url + "-" + i + "-" + extensao, true);
+						
+						xhr.onreadystatechange = () => {
+
+							if (xhr.readyState == 4) {
+
+								if (xhr.status == 200) {
+
+									resolve();
+								} else {
+									reject(xhr.responseText);
+								}
+							}
+						};
+						
+						xhr.send(formData);	
+					}));
+				}
+				
+				Promise.all(promises).then(() => resolve());
+					
+			});
+		}
+
+		function post(url, dados) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 201) {
+							resolve(JSON.parse(xhr.responseText));
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+
+				xhr.send(JSON.stringify(dados));
+			});
+		}
+
+		function get(url) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+
+				xhr.open('GET', url);
+
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 200) {
+
+							resolve(JSON.parse(xhr.responseText));
+
+						} else {
+
+							reject(xhr.responseText);
+						}
+					}
+				}
+
+				xhr.send();
+			});
+		}
+
+		function atualizarTabela() {
+			get("http://localhost:8080/produto").then(produtos => {
+				let tabela = document.getElementById("tabelaBody");
+				tabela.innerHTML = "";
+				produtos.forEach(produto => {
+					if(produto.status == "ATIVO"){
+						tabela.insertAdjacentHTML('beforeend', `<tr>
+								<th scope="row">${produto.codigo}</th>
+								<td>${produto.nome}</td>
+								<td>${produto.preco}</td>
+								<td>${produto.quantidade}</td>
+								<td>${produto.status}</td>
+								<td><button type="button"
+										class="btn btn-light btn-round px-2" onclick="desativar(${produto.codigo})" id="desativar${produto.codigo}">
+										Desativar
+									</button></td>
+								<td><a type="button"
+										class="btn btn-light btn-round px-2" href="http://localhost:8080/detalharProduto/${produto.codigo}" id="detalhar${produto.codigo}">
+										Detalhar
+									</a></td>
+									<td><a type="button"
+										class="btn btn-light btn-round px-2" href="/preview/${produto.codigo}" id="preview">
+										Preview
+									</a></td>
+							</tr>`);
+					}else{
+						tabela.insertAdjacentHTML('beforeend', `<tr>
+								<th scope="row">${produto.codigo}</th>
+								<td>${produto.nome}</td>
+								<td>${produto.preco}</td>
+								<td>${produto.quantidade}</td>
+								<td>${produto.status}</td>
+								<td><button type="button"
+										class="btn btn-light btn-round px-2" onclick="ativar(${produto.codigo})" id="ativar${produto.codigo}">
+										Ativar
+									</button></td>
+								<td><a type="button"
+										class="btn btn-light btn-round px-2" href="http://localhost:8080/detalharProduto/${produto.codigo}" id="detalhar${produto.codigo}">
+										Detalhar
+									</a></td>
+									<td><a type="button"
+										class="btn btn-light btn-round px-2" href="/preview/${produto.codigo}" id="preview">
+										Preview
+									</a></td>
+							</tr>`);
+					}
+					
+					
+				});
+			});
+		}
+		
+		
+		function limparCampos(){
+			document.getElementById("inputNome").value = "";
+			document.getElementById("inputPreco").value = "";
+			document.getElementById("inputQuantidade").value = "";
+			document.getElementById("inputPalavraChave").value = "";
+			document.getElementById("inputDescricaoCurta").value = "";
+			document.getElementById("inputDescricaoDetalhada").value = "";
+			document.getElementById("palavrasChaves").innerHTML = "";
+			document.getElementById("inputPalavraChave").innerHTML = "";
+			document.getElementById("inputImagem").value = "";
+			document.getElementById("inputPergunta").innerHTML = "";
+			document.getElementById("inputResposta").innerHTML = "";
+			
+			var palavras = [];
+			var arrayPerguntasRespostas = [];
+		}
+		
+		function desativar(codigo){
+			patch("http://localhost:8080/produto/"+codigo, "INATIVO").then(() => {
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Produto Desativado com Sucesso!!!";
+			});
+		}
+		
+		function ativar(codigo){
+			patch("http://localhost:8080/produto/"+codigo, "ATIVO").then(() => {
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Produto Ativado com Sucesso!!!";
+			});
+		}
+		
+		
+		function patch(url, status) {
+			return new Promise((resolve, reject) => {
+
+				let xhr = new XMLHttpRequest();
+				xhr.open("PATCH", url, true);
+				xhr.setRequestHeader("Content-type", "application/json");
+				xhr.onreadystatechange = () => {
+
+					if (xhr.readyState == 4) {
+
+						if (xhr.status == 200) {
+							resolve(JSON.parse(xhr.responseText));
+						} else {
+							reject(xhr.responseText);
+						}
+					}
+				};
+
+				xhr.send(status);
+			});
+		}
+		
+		function detalhar(id){
+
+			let xhr = new XMLHttpRequest();
+
+			xhr.open('GET', "http://localhost:8080/detalharProduto/"+id);
+
+			xhr.send();
+		}
+	</script>
+</body>
+
+</html>

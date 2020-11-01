@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>LaFlente</title>
+<!-- loader-->
+<link href="assets/css/pace.min.css" rel="stylesheet" />
+<script src="assets/js/pace.min.js"></script>
+<!--favicon-->
+<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+<!-- simplebar CSS-->
+<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+<!-- Bootstrap core CSS-->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<!-- animate CSS-->
+<link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+<!-- Icons CSS-->
+<link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+<!-- Sidebar CSS-->
+<link href="assets/css/sidebar-menu.css" rel="stylesheet" />
+<!-- Custom Style-->
+<link href="assets/css/app-style.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="bg-theme bg-theme1">
+
+	<!-- start loader -->
+	<div id="pageloader-overlay" class="visible incoming">
+		<div class="loader-wrapper-outer">
+			<div class="loader-wrapper-inner">
+				<div class="loader"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end loader -->
+
+	<!-- Start wrapper-->
+	<div id="wrapper">
+
+		<!--Start sidebar-wrapper-->
+		<div id="sidebar-wrapper" data-simplebar=""
+			data-simplebar-auto-hide="true">
+			<div class="brand-logo">
+
+				<a href="/"> <h1>LaFlente</h1>
+				</a>
+			</div>
+			<ul class="sidebar-menu do-nicescrol">
+				<li class="sidebar-header">Menus</li>
+				<li><a href="/"> <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+				</a></li>
+
+
+				<li><a href="/cadastrarProduto"> <i class="zmdi zmdi-invert-colors"></i> <span>CadastrarProduto</span>
+				</a></li>
+
+
+				<li>
+      <a href="/estoque">
+        <i class="zmdi zmdi-face"></i> <span>Estoque</span>
+      </a>
+    </li>
+			<li>
+        <a href="/cadastrarUsuario">
+          <i class="zmdi zmdi-account-circle"></i> <span>Cadastrar Usuário</span>
+        </a>
+      </li>
+
+
+
+
+				<li>
+        <a href="/logout">
+          <i class="zmdi zmdi-lock"></i> <span>Sair</span>
+        </a>
+      </li>
+		</div>
+		<!--End sidebar-wrapper-->
+
+
+		<!--Start topbar header-->
+		<header class="topbar-nav">
+			<nav class="navbar navbar-expand fixed-top">
+				<ul class="navbar-nav mr-auto align-items-center">
+					<li class="nav-item"><a class="nav-link toggle-menu"
+						href="javascript:void();"> <i class="icon-menu menu-icon"></i>
+					</a></li>
+					<li class="nav-item"></li>
+				</ul>
+
+				<a class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+					data-toggle="dropdown" href="#"> <span class="user-profile"><img
+						src="https://via.placeholder.com/110x110" class="img-circle"
+						alt="user avatar"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li class="dropdown-item user-details"><a
+						href="javaScript:void();">
+							<div class="media">
+								<div class="avatar">
+									<img class="align-self-start mr-3"
+										src="https://via.placeholder.com/110x110" alt="user avatar">
+								</div>
+								<div class="media-body">
+									<h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
+									<p class="user-subtitle">mccoy@example.com</p>
+								</div>
+							</div>
+					</a></li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-envelope mr-2"></i>
+						Inbox</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-wallet mr-2"></i>
+						Account</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-settings mr-2"></i>
+						Setting</li>
+					<li class="dropdown-divider"></li>
+					<li class="dropdown-item"><i class="icon-power mr-2"></i>
+						Logout</li>
+				</ul>
+				</li>
+				</ul>
+			</nav>
+		</header>
+		<!--End topbar header-->
+		<div class="clearfix"></div>
+
+		<div class="content-wrapper">
+			<div class="container-fluid">
+
+
+
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title" align="center">Cadastrar Usuário</div>
+							<hr>
+							<h3 id="mensagem" align="center"></h3>
+							<form>
+							<input id="codigo" hidden="true"/>
+								<div class="form-group">
+									<label for="inputNome">Nome</label> <input type="text"
+										class="form-control form-control-rounded" id="inputNome"
+										placeholder="Digite seu nome">
+								</div>
+								<div class="form-group">
+									<label for="inputEmail">Email</label> <input type="email"
+										class="form-control form-control-rounded" id="inputEmail"
+										placeholder="Digite seu email">
+								</div>
+								<div class="form-group">
+									<label for="inputQuantidade">Senha</label> <input
+										type="password" class="form-control form-control-rounded"
+										id="inputSenha"
+										placeholder="Digite a sua senha">
+								</div>
+				
+				<div class="position-relative has-icon-right">
+      			 	<label for="labelTipo">Tipo de acesso</label>
+      				<select id="inputTipoAcesso" class="form-control">
+      				<option selected>Selecione um tipo de acesso</option>
+        				<option>Administrador</option>
+        				<option>Estoquista</option>
+      				</select>
+    			</div>
+    				
+								
+								<div id="btnCadastrar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" id="btnCadastrar" onclick="cadastrarUsuario()"
+										class="btn btn-light btn-round px-5">
+										<i class="icon-lock"></i> Cadastrar
+									</button>		
+								</div>
+								
+								<div id="btnSalvar" class="form-group" align="center">
+									<button style="margin-top:15px" type="button" id="btnAlterar" onclick="alterarUsuario()"
+										class="btn btn-light btn-round px-5" disabled="true">
+										<i class="icon-lock"></i> Salvar Alterações
+									</button>		
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--End Row-->
+			<div class="col-lg-10">
+				<div class="card">
+					<div class="card-body" align="cent">
+						<h5 class="card-title">Usuários Cadastrados</h5>
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">Código</th>
+										<th scope="col">Nome</th>
+										<th scope="col">Email</th>
+										<th scope="col">Tipo</th>
+										<th scope="col">Status</th>
+										<th scope="col">Ativar/Inativar</th>
+										<th scope="col">Editar</th>
+									</tr>
+								</thead>
+								<tbody id="tabelaBody">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--start overlay-->
+		<div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+
+	</div>
+	<!-- End container-fluid-->
+
+	</div>
+	<!--End content-wrapper-->
+	<!--Start Back To Top Button-->
+	<a href="javaScript:void();" class="back-to-top"><i
+		class="fa fa-angle-double-up"></i> </a>
+	<!--End Back To Top Button-->
+
+	<!--Start footer-->
+
+	<!--End footer-->
+
+
+	<!--start color switcher-->
+	<div class="right-sidebar">
+		<div class="switcher-icon">
+			<i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+		</div>
+		<div class="right-sidebar-content">
+
+			<p class="mb-0">Gaussion Texture</p>
+			<hr>
+
+			<ul class="switcher">
+				<li id="theme1"></li>
+				<li id="theme2"></li>
+				<li id="theme3"></li>
+				<li id="theme4"></li>
+				<li id="theme5"></li>
+				<li id="theme6"></li>
+			</ul>
+
+			<p class="mb-0">Gradient Background</p>
+			<hr>
+
+			<ul class="switcher">
+				<li id="theme7"></li>
+				<li id="theme8"></li>
+				<li id="theme9"></li>
+				<li id="theme10"></li>
+				<li id="theme11"></li>
+				<li id="theme12"></li>
+				<li id="theme13"></li>
+				<li id="theme14"></li>
+				<li id="theme15"></li>
+			</ul>
+
+		</div>
+	</div>
+	<!--end color switcher-->
+
+	</div>
+	<!--End wrapper-->
+
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+
+	<!-- simplebar js -->
+	<script src="assets/plugins/simplebar/js/simplebar.js"></script>
+	<!-- sidebar-menu js -->
+	<script src="assets/js/sidebar-menu.js"></script>
+
+	<!-- Custom scripts -->
+	<script src="assets/js/app-script.js"></script>
+
+
+	<script>
+	atualizarTabela();
+	let tema = localStorage.getItem("tema");
+  	
+  	if(tema){
+		document.querySelector("body").className = tema;
+  	}else{
+  		
+  			document.querySelector("body").className = "bg-theme bg-theme1";
+  	}
+		
+	function cadastrarUsuario() {
+			 event.preventDefault();
+
+			let inputNome = document.getElementById("inputNome");
+			let inputEmail = document.getElementById("inputEmail");
+			let inputSenha = document.getElementById("inputSenha");
+			let inputTipoAcesso = document.getElementById("inputTipoAcesso");
+
+			let perfis = [];
+			
+			if(inputTipoAcesso.value == "Administrador"){
+				perfis.push({id: 1})
+			}else{
+				perfis.push({id: 2})
+			}
+
+			let usuario = {
+				nome: inputNome.value,
+				email: inputEmail.value,
+				senha: inputSenha.value,
+		  		perfis: perfis,
+			
+			};
+			
+			if(!validacaoEmail(inputEmail)){
+				
+				document.getElementById("mensagem").textContent = "E-mail inválido!!!";
+				return;
+			}else if(inputNome.value.length < 5){
+				document.getElementById("mensagem").textContent = "Nome tem que ter no minimo 5 caracteres!!!";
+				return;
+			}
+
+			post("http://localhost:8080/usuario", usuario).then(usuario => {
+				
+				atualizarTabela();
+				limparCampos();
+				document.getElementById("mensagem").textContent = "Usuário Cadastrado com sucesso!!!";
+			
+			});
+		}
+	
+	function alterarUsuario() {
+		 event.preventDefault();
+		 let inputCodigo = document.getElementById("codigo");
+		let inputNome = document.getElementById("inputNome");
+		let inputSenha = document.getElementById("inputSenha");
+		let inputTipoAcesso = document.getElementById("inputTipoAcesso");
+
+		let perfis = [];
+		
+		if(inputTipoAcesso.value == "Administrador"){
+			perfis.push({id: 1})
+		}else{
+			perfis.push({id: 2})
+		}
+
+		let usuario = {
+			nome: inputNome.value,
+			senha: inputSenha.value,
+	  		perfis: perfis,
+		
+		};
+		
+		console.log(inputSenha.value)
+		
+		if(!validacaoEmail(inputEmail)){
+			
+			document.getElementById("mensagem").textContent = "E-mail inválido!!!";
+			return;
+		}else if(inputNome.value.length < 5){
+			document.getElementById("mensagem").textContent = "Nome tem que ter no minimo 5 caracteres!!!";
+			return;
+		}else if(inputSenha.value == ""){
+			document.getElementById("mensagem").textContent = "Favor Preencher a senha!!!";
+			return;
+		}
+
+		put(`http://localhost:8080/usuario/${inputCodigo.value}`, usuario).then(usuario => {
+			
+			atualizarTabela();
+			limparCampos();
+			document.getElementById("mensagem").textContent = "Usuário Alterado com sucesso!!!";
+		
+		});
+	}
+	
+	function limparCampos(){
+		document.getElementById("inputNome").value = "";
+		document.getElementById("inputEmail").value = "";
+		document.getElementById("inputSenha").value = "";
+		document.getElementById("inputTipoAcesso").value = "Selecione um tipo de acesso";
+		
+		document.getElementById("btnCadastrar").disabled = false;
+		document.getElementById("btnAlterar").disabled = true;
+		document.getElementById("inputEmail").disabled = false;;
+	}
+	
+	function post(url, dados) {
+		return new Promise((resolve, reject) => {
+
+			let xhr = new XMLHttpRequest();
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = () => {
+
+				if (xhr.readyState == 4) {
+
+					if (xhr.status == 201) {
+						resolve(JSON.parse(xhr.responseText));
+					} else {
+						reject(xhr.responseText);
+					}
+				}
+			};
+
+			xhr.send(JSON.stringify(dados));
+		});
+	}
+	
+	function patch(url, status) {
+		return new Promise((resolve, reject) => {
+
+			let xhr = new XMLHttpRequest();
+			xhr.open("PATCH", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = () => {
+
+				if (xhr.readyState == 4) {
+
+					if (xhr.status == 200) {
+						resolve(JSON.parse(xhr.responseText));
+						
+					} else if(xhr.status == 400){
+						resolve(400);
+						
+					}else{
+						reject(xhr.responseText);
+					}
+				}
+			};
+
+			xhr.send(status);
+		});
+	}
+	
+	function put(url, dados) {
+		return new Promise((resolve, reject) => {
+
+			let xhr = new XMLHttpRequest();
+			xhr.open("PUT", url, true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = () => {
+
+				if (xhr.readyState == 4) {
+
+					if (xhr.status == 200) {
+						resolve();
+					} else {
+						reject(xhr.responseText);
+					}
+				}
+			};
+
+			xhr.send(JSON.stringify(dados));
+		});
+	}
+	
+	function get(url) {
+		return new Promise((resolve, reject) => {
+
+			let xhr = new XMLHttpRequest();
+
+			xhr.open('GET', url);
+
+			xhr.onreadystatechange = () => {
+
+				if (xhr.readyState == 4) {
+
+					if (xhr.status == 200) {
+
+						resolve(JSON.parse(xhr.responseText));
+
+					} else {
+
+						reject(xhr.responseText);
+					}
+				}
+			}
+
+			xhr.send();
+		});
+	}
+	
+	function atualizarTabela() {
+		get("http://localhost:8080/usuario").then(usuarios => {
+			let tabela = document.getElementById("tabelaBody");
+			tabela.innerHTML = "";
+			usuarios.forEach(usuario => {
+				if(usuario.status == "ATIVO"){
+					tabela.insertAdjacentHTML('beforeend', `<tr>
+							<th scope="row">${usuario.codigo}</th>
+							<td>${usuario.nome}</td>
+							<td>${usuario.email}</td>
+							<td>${usuario.perfis[0].nome}</td>
+							<td>${usuario.status}</td>
+							<td><button type="button"
+									class="btn btn-light btn-round px-2" onclick="desativar(${usuario.codigo})" id="desativar${usuario.codigo}">
+									Desativar
+								</button></td>
+								<td><button type="button"
+									class="btn btn-light btn-round px-2" onclick="preencherCampos(${usuario.codigo})" id="preencher${usuario.codigo}">
+									Editar
+								</button></td>
+							</tr>`);
+				}else{
+					tabela.insertAdjacentHTML('beforeend', `<tr>
+							<th scope="row">${usuario.codigo}</th>
+							<td>${usuario.nome}</td>
+							<td>${usuario.email}</td>
+							<td>${usuario.perfis[0].nome}</td>
+							<td>${usuario.status}</td>
+							<td><button type="button"
+								class="btn btn-light btn-round px-2" onclick="ativar(${usuario.codigo})" id="ativar${usuario.codigo}">
+								Ativar
+							</button></td>
+							<td><button type="button"
+								class="btn btn-light btn-round px-2" onclick="preencherCampos(${usuario.codigo})" id="preencher${usuario.codigo}">
+								Editar
+							</button></td>
+							</tr>`);
+				}
+				
+				
+			});
+		});
+	}
+
+	function desativar(codigo){
+		patch("http://localhost:8080/usuario/"+codigo, "INATIVO").then(status => {
+			if(status == 400){
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Você não pode inativar seu proprio perfil!!!";
+			}else{
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Usuário Desativado com Sucesso!!!";
+			}
+			
+		});
+	}
+	
+	function preencherCampos(codigo){
+		get("http://localhost:8080/usuario/"+codigo).then(usuario => {
+			document.getElementById("codigo").value = usuario.codigo;
+			document.getElementById("inputNome").value = usuario.nome;
+			document.getElementById("inputEmail").value = usuario.email;
+			document.getElementById("inputSenha").value = "";
+			document.getElementById("inputTipoAcesso").value = usuario.perfis[0].nome;
+			
+			document.getElementById("btnCadastrar").disabled = true;
+			document.getElementById("inputEmail").disabled = true;
+			document.getElementById("btnAlterar").disabled = false;
+		})
+	}
+	
+	function ativar(codigo){
+		patch("http://localhost:8080/usuario/"+codigo, "ATIVO").then(() => {
+			if(status == 400){
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Você não pode inativar ou ativar seu proprio perfil!!!";
+			}else{
+				atualizarTabela();
+				document.getElementById("mensagem").textContent = "Usuário Ativado com Sucesso!!!";
+			}
+			
+		});
+	}
+	
+	function validacaoEmail(field) {
+			usuario = field.value.substring(0, field.value.indexOf("@"));
+			dominio = field.value.substring(field.value.indexOf("@")+ 1, field.value.length);
+			if ((usuario.length >=1) &&
+			    (dominio.length >=3) &&
+			    (usuario.search("@")==-1) &&
+			    (dominio.search("@")==-1) &&
+			    (usuario.search(" ")==-1) &&
+			    (dominio.search(" ")==-1) &&
+			    (dominio.search(".")!=-1) &&
+			    (dominio.indexOf(".") >=1)&&
+			    (dominio.lastIndexOf(".") < dominio.length - 1)) {
+			return true;
+			}
+			else{
+				return false;
+			}
+		}
+	
+		</script>
+</body>
+
+</html>
