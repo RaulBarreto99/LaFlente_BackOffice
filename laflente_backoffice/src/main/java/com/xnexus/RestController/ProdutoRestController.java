@@ -33,9 +33,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.xnexus.model.Imagem;
 import com.xnexus.model.PalavraChave;
+import com.xnexus.model.PerguntaResposta;
 import com.xnexus.model.Produto;
 import com.xnexus.repository.ImagemRepository;
 import com.xnexus.repository.PalavraRepository;
+import com.xnexus.repository.PerguntaRespostaRepository;
 import com.xnexus.repository.ProdutoRepository;
 
 @RestController
@@ -50,6 +52,9 @@ public class ProdutoRestController {
 
 	@Autowired
 	private PalavraRepository palavraRepository;
+	
+	@Autowired
+	private PerguntaRespostaRepository perguntaRespostaRepository;
 
 	@PostMapping
 	@Transactional
@@ -81,6 +86,29 @@ public class ProdutoRestController {
 						.buildAndExpand(palavraChave.getPalavraChave(), palavraChave.getCodigoProduto()).toUri();
 
 				return ResponseEntity.created(uri).body(palavraChave);
+			}
+		}
+		return ResponseEntity.created(null).body(null);
+	}
+	
+	@PostMapping("/perguntasRespostas/{codigoProduto}")
+	@Transactional
+	public ResponseEntity<PerguntaResposta> cadastrarPerguntaResposta(@RequestBody @Valid PerguntaResposta perguntaResposta,
+			@PathVariable Long codigoProduto, UriComponentsBuilder uriBuilder) {
+
+		Optional<PerguntaResposta> optionalPerguntaResposta = perguntaRespostaRepository.findById(perguntaResposta.getId());
+		Optional<Produto> optional = produtoRepository.findById(codigoProduto);
+
+		if (!optionalPerguntaResposta.isPresent()) {
+			if (optional.isPresent()) {
+				perguntaRespostaRepository.save(perguntaResposta);
+				Produto produto = optional.get();
+				produto.addPerguntaResposta(perguntaResposta);
+
+				URI uri = uriBuilder.path("/produto/perguntasRespostas/{codigo}")
+						.buildAndExpand(perguntaResposta.getPergunta(), perguntaResposta.getResposta(), perguntaResposta.getCodigoProduto()).toUri();
+
+				return ResponseEntity.created(uri).body(perguntaResposta);
 			}
 		}
 		return ResponseEntity.created(null).body(null);
@@ -224,6 +252,21 @@ public class ProdutoRestController {
 
 		if (optional.isPresent()) {
 			palavraRepository.deleteById(id);
+
+			return ResponseEntity.ok().build();
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/perguntasRespostas/{id}")
+	@Transactional
+	public ResponseEntity<?> removerPerguntaResposta(@PathVariable Integer id) {
+
+		Optional<PerguntaResposta> optional = perguntaRespostaRepository.findById(id);
+
+		if (optional.isPresent()) {
+			perguntaRespostaRepository.deleteById(id);
 
 			return ResponseEntity.ok().build();
 		}
