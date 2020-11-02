@@ -11,6 +11,16 @@ import javax.persistence.Entity;
 public class PerguntaResposta implements Serializable{
 
 private static final long serialVersionUID = 1L;
+
+	public PerguntaResposta( String pergunta, String resposta, long codigoProduto) {
+		this.pergunta = pergunta;
+		this.resposta = resposta;
+		this.codigoProduto = codigoProduto;
+	}
+
+	public PerguntaResposta( ) {
+
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +28,7 @@ private static final long serialVersionUID = 1L;
 	
 	private String pergunta;
 	private String resposta;
+	private long codigoProduto;
 	
 	public int getId() {
 		return id;
@@ -37,5 +48,12 @@ private static final long serialVersionUID = 1L;
 	public void setResposta(String resposta) {
 		this.resposta = resposta;
 	}
+	public long getCodigoProduto() {
+        return codigoProduto;
+    }
+
+    public void setCodigoProduto(long codigoProduto) {
+        this.codigoProduto = codigoProduto;
+    }
 
 }

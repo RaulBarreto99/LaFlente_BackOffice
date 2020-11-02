@@ -315,6 +315,7 @@
 		var arrayImagens = [];
 		var imagensRemovidas = [];
 		var palavrasRemovidas = [];
+		var perguntasRespostasRemovidas = [];
 
 		let url = window.location.href.split('/');
 		let codigo = url[4];
@@ -368,20 +369,24 @@
 			event.preventDefault();
 			let inputPergunta = document.getElementById("inputPergunta");
 			let inputResposta = document.getElementById("inputResposta");
-
-			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
 			
 			let perguntasRespostas = {
 				pergunta: inputPergunta.value,
 				resposta: inputResposta.value
 			}
+			
+			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
 
 			arrayPerguntasRespostas.push(perguntasRespostas);
 
 			listaPerguntasRespostas.innerHTML = "";
 
-			arrayPerguntasRespostas.forEach(pergunta => {
-				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${pergunta.pergunta}</li><ul><li>${pergunta.resposta}</li></ul>`);
+			arrayPerguntasRespostas.forEach(perguntaResposta => {
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `
+						<li>${perguntaResposta.pergunta}</li>
+						<ul><li>${perguntaResposta.resposta}</li></ul>
+						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPerguntaRespostaLista('${perguntaResposta.id}')" id="${perguntaResposta.id}"> Remover</button>
+						`);
 			});
 
 			inputPergunta.value = "";
@@ -441,7 +446,7 @@
 			renderizarImagens(produto.imagem);
 			listarImagens(produto.imagem);
 			preencherPalavrasChaves(produto.palavraChave);
-			preencherPerguntasRespostas(produto);
+			preencherPerguntasRespostas(produto.perguntaResposta);
 			
 			arrayImagens = produto.imagem;
 			palavras = produto.palavraChave;
@@ -472,15 +477,21 @@
 
 		}
 
-		function preencherPerguntasRespostas(produto) {
+		function preencherPerguntasRespostas(perguntasResposta) {
 
 			let listaPerguntasRespostas = document.getElementById("perguntasRespostas");
 
 
 			listaPerguntasRespostas.innerHTML = "";
 
-			produto.perguntaResposta.forEach(perguntaResposta => {
-				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `<li>${perguntaResposta.pergunta}</li><ul><li>${perguntaResposta.resposta}</li></ul>`);
+			perguntasResposta.forEach(perguntaResposta => {
+				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `
+						<li>${perguntaResposta.pergunta}</li>
+						<ul>
+						<li>${perguntaResposta.resposta}</li>
+						</ul>
+						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPerguntaRespostaLista('${perguntaResposta.id}')" id="${perguntaResposta.id}"> Remover</button>
+						`);
 			});
 
 		}
@@ -514,6 +525,9 @@
 			removerImagens().then(() => {
 				removerPalavraChave().then(() => {
 					addPalavraBanco().then(() => {
+						removerPerguntaResposta().then(() => {
+							addPerguntaRespostaBanco().then(() => {
+						
 				put("http://localhost:8080/produto/" + produto.codigo, produto).then(() => {
 					putImagem("http://localhost:8080/produto/imagem/"+produto.codigo+"-"+produto.nome, produto).then(() => {
 						get("http://localhost:8080/produto/" + codigo).then(produto => {
@@ -521,6 +535,9 @@
 						})
 						document.getElementById("mensagem").textContent = "Produto editado com sucesso!!!";
 					});
+				});
+				
+				});
 				});
 				});
 				});
@@ -561,6 +578,33 @@
 					promises.push(new Promise((resolve, reject) => {
 						console.log(palavras[i])
 						post(`http://localhost:8080/produto/palavrasChave/${codigo}`,palavras[i]).then(() => resolve())
+					}));
+				}
+				
+				Promise.all(promises).then(() => resolve());
+			});
+		}
+		
+		function removerPerguntaResposta(){
+			return new Promise((resolve, reject) => {
+				let promises = [];
+				for(let i = 0; i < perguntasRespostasRemovidas.length; i++){
+					promises.push(new Promise((resolve, reject) => {
+						remove(`http://localhost:8080/produto/perguntasRespostas/${perguntasRespostasRemovidas[i]}`).then(() => resolve())
+					}));
+				}
+				
+				Promise.all(promises).then(() => resolve());
+			});
+		}
+		
+		function addPerguntaRespostaBanco(){
+			return new Promise((resolve, reject) => {
+				let promises = [];
+				for(let i = 0; i < arrayPerguntasRespostas.length; i++){
+					promises.push(new Promise((resolve, reject) => {
+						console.log(arrayPerguntasRespostas[i])
+						post(`http://localhost:8080/produto/perguntasRespostas/${codigo}`,arrayPerguntasRespostas[i]).then(() => resolve())
 					}));
 				}
 				
@@ -703,9 +747,20 @@
 					preencherPalavrasChaves(palavras);
 					return;
 				}
-			}
-			
-			 
+			} 
+		}
+		
+		function removerPerguntaRespostaLista(id){
+			event.preventDefault();
+			for(let i = 0; i < arrayPerguntasRespostas.length; i++){
+				if(arrayPerguntasRespostas[i].id == id){
+					let removido = arrayPerguntasRespostas.splice(i, 1);
+
+					perguntasRespostasRemovidas.push(id);
+					preencherPerguntasRespostas(arrayPerguntasRespostas);
+					return;
+				}
+			} 
 		}
 		
 		function putImagem(url, produto){
