@@ -138,4 +138,8 @@ public class Produto implements Serializable {
 	public void addPalavraChave(PalavraChave palavraChave){
 		this.palavraChave.add(palavraChave);
 	}
+	
+	public void addPerguntaResposta(PerguntaResposta perguntaResposta){
+		this.perguntaResposta.add(perguntaResposta);
+	}
 }

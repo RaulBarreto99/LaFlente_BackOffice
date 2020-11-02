@@ -383,10 +383,16 @@
 
 			arrayPerguntasRespostas.forEach(perguntaResposta => {
 				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `
+						<tr>
+						<td>
 						<li>${perguntaResposta.pergunta}</li>
 						<ul><li>${perguntaResposta.resposta}</li></ul>
+						</td>
+						<td>
 						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPerguntaRespostaLista('${perguntaResposta.id}')" id="${perguntaResposta.id}"> Remover</button>
-						`);
+						</td>
+						<br>
+					</tr>`);
 			});
 
 			inputPergunta.value = "";
@@ -471,8 +477,7 @@
 						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPalavraChaveLista('${palavraChave.id}')" id="${palavraChave.id}"> Remover</button>
 						</td>
 						<br>
-					</tr>
-						`);
+					</tr>`);
 			});
 
 		}
@@ -486,12 +491,16 @@
 
 			perguntasResposta.forEach(perguntaResposta => {
 				listaPerguntasRespostas.insertAdjacentHTML('beforeend', `
+						<tr>
+						<td>
 						<li>${perguntaResposta.pergunta}</li>
-						<ul>
-						<li>${perguntaResposta.resposta}</li>
-						</ul>
+						<ul><li>${perguntaResposta.resposta}</li></ul>
+						</td>
+						<td>
 						<button class="btn btn-light btn-round px-3 ml-3" type="button" onclick="removerPerguntaRespostaLista('${perguntaResposta.id}')" id="${perguntaResposta.id}"> Remover</button>
-						`);
+						</td>
+						<br>
+					</tr>`);
 			});
 
 		}
