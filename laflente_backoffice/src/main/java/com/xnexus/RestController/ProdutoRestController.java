@@ -174,6 +174,23 @@ public class ProdutoRestController {
 
 		return ResponseEntity.notFound().build();
 	}
+	
+	@PutMapping("/quantidade/{codigo}")
+	@Transactional
+	public ResponseEntity<Produto> alterarQuantidade(@PathVariable Long codigo, @RequestBody int quantidade) {
+
+		Optional<Produto> optional = produtoRepository.findById(codigo);
+
+		if (optional.isPresent()) {
+			Produto produtos = optional.get();
+
+			produtos.setQuantidade(quantidade);
+
+			return ResponseEntity.ok(produtos);
+		}
+
+		return ResponseEntity.notFound().build();
+	}
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Produto> buscarProduto(@PathVariable Long codigo) {
