@@ -59,6 +59,27 @@ public class Controller {
 		
 		
 	}
+	
+	@RequestMapping("/pedidos")
+	@GetMapping
+	public ModelAndView pedidos() {
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		List<Perfil> perfis = (List<Perfil>) ((UserDetails) principal).getAuthorities();
+
+		String perfil = perfis.get(0).getNome();
+
+		if (perfil.equals("Estoquista")) {
+			ModelAndView mv = new ModelAndView("pedidos.html");
+			return mv;
+		} else {
+			ModelAndView mv = new ModelAndView("forbidden.html");
+			return mv;
+		}
+		
+		
+	}
 
 	@RequestMapping("/login")
 	@GetMapping
